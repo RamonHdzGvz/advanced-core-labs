@@ -1,0 +1,10 @@
+<div class="relative border bg-white border-gray-300 rounded-md shadow-xs p-4">
+  <span class="absolute -top-3 left-3 bg-white px-1 text-base text-gray-500">
+    {{ label }}
+    @if (requiredSign) {
+    <span class="text-red-500">*</span>
+    }
+  </span>
+
+  <ng-content></ng-content>
+</div>

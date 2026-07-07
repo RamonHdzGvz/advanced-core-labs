@@ -1,0 +1,30 @@
+@import "tailwindcss";
+@import "tailwindcss-primeui";
+@import "primeicons/primeicons.css";
+
+/* sincronize theme colors with tailwind */
+@theme {
+  --font-sans: "Sora", sans-serif;
+
+  --color-acl-primary: #06B6D4;
+  --color-acl-primary-hover: #0891B2;
+  --color-acl-accent: #22D3EE;
+
+  --color-acl-dark: #0F172A;
+  --color-acl-text: #374151;
+
+  --color-acl-background: #F8FAFC;
+
+  --shadow-acl-card: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --shadow-acl-hover: 0 8px 24px rgba(15, 23, 42, 0.12);
+}
+
+:root {
+  --acl-background: #f8fafc;
+  --acl-text: #374151;
+}
+
+.app-dark {
+  --acl-background: #0f172a;
+  --acl-text: #e5e7eb;
+}

@@ -1,0 +1,53 @@
+<div class="min-h-screen bg-slate-100 flex items-center justify-center p-6">
+  <div class="max-w-4xl w-full space-y-6">
+
+    <!-- Header -->
+    <div class="text-center space-y-2">
+      <h1 class="text-3xl font-bold text-slate-800">
+        AdvancedCoreLabs Angular Boilerplate
+      </h1>
+      <p class="text-slate-600">
+        System status & stack validation
+      </p>
+    </div>
+
+    <!-- Stack info -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <p-card header="Framework & Tooling">
+        <ul class="space-y-2 text-sm">
+          <li><strong>Angular:</strong> {{ versions.angular }}</li>
+          <li><strong>Angular CLI:</strong> {{ versions.cli }}</li>
+          <li><strong>TypeScript:</strong> {{ versions.typescript }}</li>
+          <li><strong>RxJS:</strong> {{ versions.rxjs }}</li>
+          <li><strong>Vitest:</strong> {{ versions.vitest }}</li>
+        </ul>
+      </p-card>
+
+      <p-card header="UI & Styling">
+        <ul class="space-y-2 text-sm">
+          <li><strong>PrimeNG:</strong> {{ versions.primeng }}</li>
+          <li><strong>TailwindCSS:</strong> {{ versions.tailwind }}</li>
+        </ul>
+      </p-card>
+
+    </div>
+
+    <!-- Actions -->
+    <p-card>
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="text-sm text-slate-600">
+          <span class="block"><strong>App mode:</strong> {{ appMode }}</span>
+          <span class="block"><strong>Version:</strong> {{ appVersion }}</span>
+        </div>
+      </div>
+      <app-acl-brand-logo variant="light" size="lg" />
+    </p-card>
+
+    <!-- Footer -->
+    <div class="text-center text-xs text-slate-500">
+      © 2025 AdvancedCoreLabs · Angular 20 Boilerplate
+    </div>
+
+  </div>
+</div>
