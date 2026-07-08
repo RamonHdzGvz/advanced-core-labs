@@ -1,4 +1,5 @@
 import { Routes } from "@angular/router";
+import { authGuard } from "@domains/www/guards/auth-guard";
 
 export default [
   {
@@ -12,6 +13,17 @@ export default [
       {
         path: "error",
         loadComponent: () => import("@domains/www/pages/error-page/error-page").then((m) => m.ErrorPage),
+      },
+      {
+        path: "login",
+        loadComponent: () =>
+          import("@domains/www/pages/login-page/login-page").then((m) => m.LoginPage),
+      },
+      {
+        path: "private",
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import("@domains/www/pages/private-page/private-page").then((m) => m.PrivatePage),
       },
       {
         path: '**',

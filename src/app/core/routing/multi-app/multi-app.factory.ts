@@ -9,8 +9,8 @@ export function createAppRegistry<T extends AppRegistry>(registry: T): T {
 }
 
 export function createAppRoutes(registry: AppRegistry, hostname: string): Routes {
+  //
   const isValidSubdomain = hasValidSubdomain(hostname, registry);
-
   if (!isValidSubdomain) {
     const defaultApp = Object.values(registry)
       .find(app => app.isDefault);

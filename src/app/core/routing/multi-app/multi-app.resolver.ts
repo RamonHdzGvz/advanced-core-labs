@@ -27,6 +27,7 @@ export function resolveAppType<T extends AppRegistry>(hostname: string, registry
   throw new Error(`No app matched for hostname: ${hostname}`);
 }
 
+//
 export function hasValidSubdomain<T extends AppRegistry>(
   hostname: string,
   registry: T
