@@ -10,9 +10,13 @@ export default [
         loadComponent: () => import("@domains/dev/testing-page/testing-page").then((m) => m.TestingPage),
       },
       {
-        path: "demo",
-        loadComponent: () => import("@domains/dev/demo-page/demo-page").then((m) => m.DemoPage),
+        path: "error",
+        loadComponent: () => import("@domains/dev/pages/error-page/error-page").then((m) => m.ErrorPage),
       },
+      {
+        path: "**",
+        redirectTo: "error",
+      }
     ],
   },
 ] satisfies Routes;

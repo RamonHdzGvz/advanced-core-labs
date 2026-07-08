@@ -9,6 +9,14 @@ export default [
         path: "",
         loadComponent: () => import("@domains/www/home-page/home-page").then((m) => m.HomePage),
       },
+      {
+        path: "error",
+        loadComponent: () => import("@domains/www/pages/error-page/error-page").then((m) => m.ErrorPage),
+      },
+      {
+        path: '**',
+        redirectTo: 'error',
+      }
     ],
   },
 ] satisfies Routes;
