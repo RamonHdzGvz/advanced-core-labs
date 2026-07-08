@@ -2,13 +2,31 @@ import { Routes } from "@angular/router";
 import { AppRegistry } from "./multi-app.types";
 import { APP_REGISTRY_TOKEN } from "./multi-app.token";
 import { inject } from "@angular/core";
-import { resolveAppType } from "./multi-app.resolver";
+import { resolveAppType, hasValidSubdomain } from "./multi-app.resolver";
 
 export function createAppRegistry<T extends AppRegistry>(registry: T): T {
   return registry;
 }
 
 export function createAppRoutes(registry: AppRegistry, hostname: string): Routes {
+  const isValidSubdomain = hasValidSubdomain(hostname, registry);
+
+  if (!isValidSubdomain) {
+    const defaultApp = Object.values(registry)
+      .find(app => app.isDefault);
+
+    if (defaultApp) {
+      const defaultSubdomain = defaultApp.subdomains[0];
+
+      const url = new URL(window.location.href);
+
+      url.hostname = `${defaultSubdomain}.${url.hostname.split(".").slice(-1)[0]}`;
+      url.pathname = "/error";
+
+      window.location.replace(url.toString());
+    }
+  }
+
   const appType = resolveAppType(hostname, registry);
   const config = registry[appType];
 
