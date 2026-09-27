@@ -1,7 +1,7 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from "@angular/core";
 import { createPrimeTheme } from "./theme/theme.factory";
 import { providePrimeNG } from "primeng/config";
-import { provideRouter } from "@angular/router";
+import { provideRouter, withInMemoryScrolling } from "@angular/router";
 import { registry, routes } from "./app.routes";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { MessageService } from "primeng/api";
@@ -13,7 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideAppRegistry(registry),
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
+    provideRouter(routes, withInMemoryScrolling({ anchorScrolling: "enabled", scrollPositionRestoration: "enabled" })),
     providePrimeNG({ theme: { preset: createPrimeTheme(), options: { darkModeSelector: '.app-dark' } } }),
     provideAnimations(),
     MessageService,

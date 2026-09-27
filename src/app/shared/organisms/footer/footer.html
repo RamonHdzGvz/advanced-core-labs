@@ -1,3 +1,10 @@
-<footer class="p-4 text-center bg-gray-100 text-sm text-gray-600">
-    <p>©AdvancedCoreLabs</p>
+<footer class="border-t border-[var(--acl-border)] bg-[#03101f]">
+  <div class="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-7 text-sm text-[var(--acl-muted)] sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+    <p>© {{ year }} AdvancedCoreLabs. Todos los derechos reservados.</p>
+    <nav class="flex flex-wrap gap-x-5 gap-y-2" aria-label="Navegación del pie de página">
+      <a routerLink="/" fragment="inicio" class="transition hover:text-acl-primary">Inicio</a>
+      <a routerLink="/soluciones" class="transition hover:text-acl-primary">Soluciones</a>
+      <a routerLink="/" fragment="contacto" class="transition hover:text-acl-primary">Contacto</a>
+    </nav>
+  </div>
 </footer>

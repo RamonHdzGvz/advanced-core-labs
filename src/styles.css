@@ -6,25 +6,36 @@
 @theme {
   --font-sans: "Sora", sans-serif;
 
-  --color-acl-primary: #06B6D4;
-  --color-acl-primary-hover: #0891B2;
-  --color-acl-accent: #22D3EE;
-
-  --color-acl-dark: #0F172A;
-  --color-acl-text: #374151;
-
-  --color-acl-background: #F8FAFC;
-
-  --shadow-acl-card: 0 4px 12px rgba(15, 23, 42, 0.08);
-  --shadow-acl-hover: 0 8px 24px rgba(15, 23, 42, 0.12);
+  --color-acl-primary: #08c9e8;
+  --color-acl-primary-hover: #22d3ee;
+  --color-acl-accent: #22d3ee;
+  --color-acl-dark: #061525;
+  --color-acl-text: #d4deed;
+  --color-acl-background: #041222;
+  --color-acl-dark-background: #041222;
+  --shadow-acl-card: 0 12px 36px rgba(0, 0, 0, 0.2);
+  --shadow-acl-hover: 0 16px 40px rgba(0, 201, 232, 0.12);
 }
 
 :root {
-  --acl-background: #f8fafc;
-  --acl-text: #374151;
+  color-scheme: dark;
+  --acl-dark-background: #041222;
+  --acl-background: #041222;
+  --acl-surface: #071a2d;
+  --acl-border: #0a3b59;
+  --acl-cyan: #08c9e8;
+  --acl-text: #d4deed;
+  --acl-muted: #a9bad1;
 }
 
-.app-dark {
-  --acl-background: #0f172a;
-  --acl-text: #e5e7eb;
+html {
+  scroll-behavior: smooth;
+  background: var(--acl-background);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--acl-background);
+  color: var(--acl-text);
 }

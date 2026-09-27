@@ -1,5 +1,84 @@
-<div class="h-full bg-blue-100/30">
-  <main class="flex flex-col justify-center items-center gap-8 h-full">
-    <h1 class="text-4xl">Bienvenido</h1>
-  </main>
-</div>
+<section id="inicio" class="relative isolate scroll-mt-24 overflow-hidden">
+  <div class="mx-auto grid max-w-7xl items-center gap-4 px-5 pb-10 pt-12 sm:gap-8 sm:px-6 sm:pb-14 sm:pt-16 lg:grid-cols-[1.2fr_1fr] lg:px-8 lg:pb-14 lg:pt-20">
+    <div class="relative z-10">
+      <p class="mb-6 text-xs font-medium uppercase tracking-[0.16em] text-acl-primary sm:text-sm sm:tracking-[0.35em]">Ideas. Tecnología. Impacto.</p>
+      <h1 class="max-w-3xl text-[clamp(2.3rem,6.8vw,4.25rem)] font-bold leading-[1.05] tracking-tight text-white lg:text-7xl">
+        Soluciones digitales <span class="block">para un mejor mañana</span>
+      </h1>
+      <p class="mt-6 max-w-2xl text-base leading-7 text-[var(--acl-muted)] sm:mt-7 sm:text-lg sm:leading-8">
+        En AdvancedCoreLabs desarrollamos soluciones web y móviles con enfoque en excelencia técnica, escalabilidad y eficiencia de costos.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3 sm:mt-9 sm:gap-4">
+        <a routerLink="/" fragment="contacto" class="group inline-flex items-center gap-3 rounded-xl bg-acl-primary px-5 py-3.5 font-semibold text-slate-950 shadow-xl shadow-cyan-500/20 transition hover:-translate-y-0.5 hover:bg-acl-primary-hover sm:gap-4 sm:px-7 sm:py-4">
+          Comienza hoy <span class="text-xl transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
+        </a>
+        <a routerLink="/soluciones" class="inline-flex items-center rounded-xl border border-[var(--acl-border)] px-5 py-3.5 font-semibold text-white transition hover:border-acl-primary hover:text-acl-primary sm:px-7 sm:py-4">Conoce más</a>
+      </div>
+    </div>
+
+    <app-hero-visual imageSrc="/assets/images/home-page-hero.png" size="large" [showGrid]="true" />
+  </div>
+</section>
+
+<section id="soluciones" class="mx-auto max-w-7xl scroll-mt-24 px-5 pb-16 sm:px-6 sm:pb-20 lg:px-8">
+  <div class="mb-7 max-w-2xl">
+    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-acl-primary">Lo que hacemos</p>
+    <h2 class="mt-3 text-3xl font-semibold tracking-tight text-white sm:text-4xl">Soluciones para avanzar</h2>
+    <p class="mt-3 leading-7 text-[var(--acl-muted)]">Tecnología pensada para resolver problemas reales y acompañar el crecimiento de tu negocio.</p>
+  </div>
+  <div class="grid items-stretch gap-4 sm:gap-5 md:grid-cols-2 xl:grid-cols-3">
+    @for (service of services; track service.title) {
+      <app-solution-card [title]="service.title" [description]="service.description" [icon]="service.icon" route="/soluciones" />
+    }
+  </div>
+</section>
+
+<section id="tecnologia" class="scroll-mt-24 border-y border-white/5 bg-[#06182a]/60">
+  <div class="mx-auto grid max-w-7xl gap-8 px-5 py-16 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:px-8 lg:py-20">
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-acl-primary">Tecnología</p>
+      <h2 class="mt-3 text-3xl font-semibold tracking-tight text-white sm:text-4xl">Herramientas actuales. Bases sólidas.</h2>
+      <p class="mt-4 max-w-xl leading-7 text-[var(--acl-muted)]">Elegimos tecnologías probadas que nos permiten construir productos mantenibles, seguros y listos para crecer.</p>
+    </div>
+    <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5" role="list" aria-label="Tecnologías que utilizamos">
+      @for (technology of technologies; track technology) {
+        <app-technology-card role="listitem" [name]="technology.name" [icon]="technology.icon" />
+      }
+    </div>
+  </div>
+</section>
+
+<section id="proceso" class="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
+  <div class="max-w-2xl">
+    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-acl-primary">Cómo trabajamos</p>
+    <h2 class="mt-3 text-3xl font-semibold tracking-tight text-white sm:text-4xl">De una idea a una solución útil</h2>
+  </div>
+  <ol class="mt-8 grid gap-4 md:grid-cols-3">
+    @for (step of process; track step.number) {
+      <li class="rounded-2xl border border-[var(--acl-border)] bg-[var(--acl-surface)]/55 p-6 sm:p-7">
+        <span class="font-mono text-sm text-acl-primary">{{ step.number }}</span>
+        <h3 class="mt-4 text-xl font-semibold text-white">{{ step.title }}</h3>
+        <p class="mt-2 text-sm leading-6 text-[var(--acl-muted)]">{{ step.description }}</p>
+      </li>
+    }
+  </ol>
+</section>
+
+<section id="nosotros" class="scroll-mt-24 border-y border-white/5 bg-[#06182a]/60">
+  <div class="mx-auto grid max-w-7xl gap-6 px-5 py-16 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8 lg:py-20">
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-acl-primary">Nosotros</p>
+      <h2 class="mt-3 text-3xl font-semibold tracking-tight text-white sm:text-4xl">Excelencia técnica con sentido práctico</h2>
+    </div>
+    <p class="max-w-2xl leading-7 text-[var(--acl-muted)]">En AdvancedCoreLabs construimos soluciones digitales con atención al detalle y una visión de largo plazo. Buscamos el equilibrio entre calidad, escalabilidad y eficiencia de costos en cada decisión.</p>
+  </div>
+</section>
+
+<section id="contacto" class="scroll-mt-24 px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
+  <div class="mx-auto max-w-5xl overflow-hidden rounded-3xl border border-cyan-400/20 bg-[radial-gradient(ellipse_at_top_right,rgba(8,201,232,0.14),transparent_50%),var(--acl-surface)] px-6 py-10 text-center sm:px-12 sm:py-14">
+    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-acl-primary">Contacto</p>
+    <h2 class="mx-auto mt-3 max-w-2xl text-3xl font-semibold tracking-tight text-white sm:text-4xl">¿Tienes un proyecto en mente?</h2>
+    <p class="mx-auto mt-4 max-w-2xl leading-7 text-[var(--acl-muted)]">Cuéntanos qué quieres resolver y exploremos juntos cómo llevarlo a cabo.</p>
+    <p class="mt-7 text-sm text-slate-300">AdvancedCoreLabs · Ideas. Tecnología. Impacto.</p>
+  </div>
+</section>

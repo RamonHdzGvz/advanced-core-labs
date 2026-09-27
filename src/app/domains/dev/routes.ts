@@ -7,11 +7,11 @@ export default [
     children: [
       {
         path: "",
-        loadComponent: () => import("@domains/dev/testing-page/testing-page").then((m) => m.TestingPage),
+        loadComponent: () => import("@domains/dev/logo-page/logo-page").then((m) => m.LogoPage),
       },
       {
-        path: "demo",
-        loadComponent: () => import("@domains/dev/demo-page/demo-page").then((m) => m.DemoPage),
+        path: "info",
+        loadComponent: () => import("@domains/dev/testing-page/testing-page").then((m) => m.TestingPage),
       },
     ],
   },

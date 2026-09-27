@@ -1,33 +1,29 @@
-<nav class="fixed top-0 left-0 w-full bg-white shadow-md px-4 py-3 z-50">
-  <div class="flex items-center justify-between">
-    <div class="flex items-center gap-2">
+<header class="sticky top-0 z-50 border-b border-white/5 bg-[#041222]/90 backdrop-blur-xl">
+  <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
+    <a routerLink="/" fragment="inicio" (click)="selectSection('inicio')" class="min-w-0 shrink" aria-label="AdvancedCoreLabs, inicio">
+      <app-acl-brand-logo variant="dark" size="responsive" />
+    </a>
 
-    </div>
+    <nav class="hidden items-center gap-8 lg:flex xl:gap-10" aria-label="Navegación principal">
+      <a routerLink="/" fragment="inicio" (click)="selectSection('inicio')" class="nav-link" [class.nav-link--active]="activeSection === 'inicio'" [attr.aria-current]="activeSection === 'inicio' ? 'page' : null">Inicio</a>
+      <a routerLink="/soluciones" (click)="selectSection('soluciones')" class="nav-link" [class.nav-link--active]="activeSection === 'soluciones'" [attr.aria-current]="activeSection === 'soluciones' ? 'page' : null">Soluciones</a>
+      <a routerLink="/" fragment="tecnologia" (click)="selectSection('tecnologia')" class="nav-link" [class.nav-link--active]="activeSection === 'tecnologia'" [attr.aria-current]="activeSection === 'tecnologia' ? 'location' : null">Tecnología</a>
+      <a routerLink="/" fragment="nosotros" (click)="selectSection('nosotros')" class="nav-link" [class.nav-link--active]="activeSection === 'nosotros'" [attr.aria-current]="activeSection === 'nosotros' ? 'location' : null">Nosotros</a>
+    </nav>
 
-    <button class="sm:hidden" (click)="isOpen = !isOpen" aria-label="Menú">
-      <svg class="h-6 w-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
-        stroke-linecap="round" stroke-linejoin="round">
-        <path *ngIf="!isOpen" d="M4 6h16M4 12h16M4 18h16" />
-        <path *ngIf="isOpen" d="M6 18L18 6M6 6l12 12" />
-      </svg>
+    <a routerLink="/" fragment="contacto" (click)="selectSection('contacto')" class="hidden rounded-xl bg-acl-primary px-7 py-3.5 text-sm font-semibold text-slate-950 shadow-lg shadow-cyan-500/20 transition hover:bg-acl-primary-hover lg:inline-flex">Contáctanos</a>
+    <button type="button" class="rounded-lg p-2 text-white lg:hidden" (click)="isOpen = !isOpen" [attr.aria-expanded]="isOpen" aria-controls="mobile-navigation" aria-label="Alternar menú">
+      <span class="text-2xl" aria-hidden="true">{{ isOpen ? '×' : '☰' }}</span>
     </button>
-
-    <ul class="hidden sm:flex gap-6 text-gray-800 font-medium">
-      <li><a routerLink="/" (click)="scrollToTop()" class="hover:text-blue-600">Inicio</a></li>
-      <li><a href="#servicios" class="hover:text-blue-600">Servicios</a></li>
-      <li><a routerLink="/nosotros" (click)="scrollToTop()" class="hover:text-blue-600">Nosotros</a></li>
-      <li><a routerLink="/unete" (click)="scrollToTop()" class="hover:text-blue-600">Unete</a></li>
-      <li><a routerLink="/contacto" (click)="scrollToTop()" class="hover:text-blue-600">Contacto</a></li>
-    </ul>
   </div>
 
-  <ul class="sm:hidden mt-3 flex flex-col items-center text-center gap-3 transition-all duration-200" *ngIf="isOpen">
-    <li><a routerLink="/" (click)="scrollToTop()" class="block text-gray-800 hover:text-blue-600">Inicio</a></li>
-    <li><a href="#servicios" class="block text-gray-800 hover:text-blue-600">Servicios</a></li>
-    <li><a routerLink="/nosotros" (click)="scrollToTop()" class="block text-gray-800 hover:text-blue-600">Nosotros</a>
-    </li>
-    <li><a routerLink="/unete" (click)="scrollToTop()" class="block text-gray-800 hover:text-blue-600">Únete</a></li>
-    <li><a routerLink="/contacto" (click)="scrollToTop()" class="block text-gray-800 hover:text-blue-600">Contacto</a>
-    </li>
-  </ul>
-</nav>
+  @if (isOpen) {
+    <nav id="mobile-navigation" class="flex flex-col gap-1 border-t border-white/10 px-6 py-3 lg:hidden" aria-label="Navegación móvil">
+      <a routerLink="/" fragment="inicio" (click)="selectSection('inicio')" class="rounded-lg px-3 py-2 text-slate-200 hover:text-acl-primary" [class.nav-link--active]="activeSection === 'inicio'">Inicio</a>
+      <a routerLink="/soluciones" (click)="selectSection('soluciones')" class="rounded-lg px-3 py-2 text-slate-200 hover:text-acl-primary" [class.nav-link--active]="activeSection === 'soluciones'">Soluciones</a>
+      <a routerLink="/" fragment="tecnologia" (click)="selectSection('tecnologia')" class="rounded-lg px-3 py-2 text-slate-200 hover:text-acl-primary" [class.nav-link--active]="activeSection === 'tecnologia'">Tecnología</a>
+      <a routerLink="/" fragment="nosotros" (click)="selectSection('nosotros')" class="rounded-lg px-3 py-2 text-slate-200 hover:text-acl-primary" [class.nav-link--active]="activeSection === 'nosotros'">Nosotros</a>
+      <a routerLink="/" fragment="contacto" (click)="selectSection('contacto')" class="mt-2 rounded-lg bg-acl-primary px-3 py-2 text-center font-semibold text-slate-950">Contáctanos</a>
+    </nav>
+  }
+</header>

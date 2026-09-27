@@ -1,7 +1,7 @@
-import { Component, Input, computed, signal } from "@angular/core";
+import { Component, Input, computed } from "@angular/core";
 
 export type LogoVariant = "light" | "dark";
-export type LogoSize = "sm" | "md" | "lg";
+export type LogoSize = "sm" | "md" | "lg" | "responsive";
 
 @Component({
   selector: "app-acl-brand-logo",
@@ -23,6 +23,8 @@ export class ACLBrandLogoComponent {
         return "text-xl";
       case "lg":
         return "text-3xl";
+      case "responsive":
+        return "text-[clamp(1.125rem,3vw,1.875rem)]";
     }
   });
 }

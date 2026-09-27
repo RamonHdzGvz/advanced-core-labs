@@ -1,0 +1,7 @@
+<div class="hero-visual" [class.hero-visual--large]="size === 'large'" [class.hero-visual--grid]="showGrid" aria-hidden="true">
+  @if (showGrid) {
+    <div class="hero-visual__grid"></div>
+  }
+  <div class="hero-visual__glow"></div>
+  <img [src]="imageSrc" alt="" aria-hidden="true" draggable="false" fetchpriority="high" class="hero-visual__image pointer-events-none relative z-20 select-none object-contain" />
+</div>

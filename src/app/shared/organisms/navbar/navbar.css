@@ -1,0 +1,38 @@
+:host {
+  display: block;
+}
+
+.nav-link {
+  position: relative;
+  color: #e2e8f0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 160ms ease;
+}
+
+.nav-link:hover,
+.nav-link--active {
+  color: var(--acl-cyan);
+}
+
+@media (min-width: 1024px) {
+  .nav-link::after {
+    position: absolute;
+    right: 0;
+    bottom: -1.75rem;
+    left: 0;
+    height: 2px;
+    background: var(--acl-cyan);
+    content: "";
+    opacity: 0;
+    transition: opacity 160ms ease;
+  }
+
+  .nav-link--active::after {
+    opacity: 1;
+  }
+}
+
+.nav-link--active {
+  font-weight: 600;
+}
