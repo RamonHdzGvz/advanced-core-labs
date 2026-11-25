@@ -1,0 +1,316 @@
+<main class="min-h-screen bg-canvas text-content">
+  <header class="border-b border-outline bg-surface">
+    <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
+      <a href="/" class="flex items-center gap-3 font-bold tracking-tight">
+        <span
+          class="flex size-9 items-center justify-center rounded-theme-md bg-primary text-on-primary"
+          >F</span
+        >
+        <span>AdvancedCoreLabs <span class="font-normal text-content-muted">· Forms</span></span>
+      </a>
+      <app-theme-toggle />
+    </div>
+  </header>
+
+  <div class="mx-auto max-w-7xl px-5 py-10 sm:px-8 lg:py-14">
+    <section class="mb-8 max-w-3xl">
+      <p class="text-xs font-bold uppercase tracking-[0.18em] text-primary">Miniapp · forms</p>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Formularios dinámicos</h1>
+      <p class="mt-3 text-base leading-7 text-content-muted">
+        La molécula recibe un esquema declarativo con secciones, campos, validaciones y catálogos
+        cargados desde el componente padre mediante su clave.
+      </p>
+    </section>
+
+    @if (validationErrors(); as errors) {
+      <div
+        class="mb-5 rounded-theme-md border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100"
+        role="status"
+      >
+        Se encontraron {{ validationErrorCount }} campos que requieren atención.
+      </div>
+    }
+
+    <div class="grid items-start gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(18rem,0.8fr)]">
+      <section class="rounded-theme-lg border border-outline bg-surface p-5 shadow-sm sm:p-7">
+        <app-dynamic-form
+          [schema]="projectForm"
+          [catalogLoader]="loadCatalog"
+          (success)="handleSuccess($event)"
+          (validationError)="handleError($event)"
+          (catalogLoadError)="handleCatalogError($event)"
+        />
+      </section>
+
+      <aside class="space-y-5">
+        <section class="rounded-theme-lg border border-outline bg-surface p-5 shadow-sm">
+          <h2 class="text-base font-semibold">¿Qué demuestra?</h2>
+          <ul class="mt-3 space-y-2 text-sm leading-6 text-content-muted">
+            <li>Campos agrupados por secciones y distribuidos en columnas.</li>
+            <li>Campos obligatorios por defecto, más validaciones para correo, teléfono y URL.</li>
+            <li>Mensajes de error accesibles junto a cada campo.</li>
+            <li>
+              Selects alimentados por catálogos con etiqueta y valor configurables en el esquema.
+            </li>
+            <li>Eventos de éxito con valores y de error con detalle por campo.</li>
+          </ul>
+        </section>
+
+        <details class="rounded-theme-lg border border-outline bg-surface p-5 shadow-sm">
+          <summary class="cursor-pointer text-sm font-semibold">Ver el esquema JSON</summary>
+          <pre class="mt-4 max-h-96 overflow-auto rounded-theme-md bg-surface-raised p-3 text-xs">{{
+            projectForm | json
+          }}</pre>
+        </details>
+
+        @if (validationErrors(); as errors) {
+          <section
+            class="rounded-theme-lg border border-rose-200 bg-rose-50 p-5 text-rose-950 dark:border-rose-900 dark:bg-rose-950/30 dark:text-rose-100"
+          >
+            <h2 class="text-sm font-semibold">Errores emitidos por el formulario</h2>
+            <pre class="mt-3 overflow-x-auto text-xs">{{ errors.fieldErrors | json }}</pre>
+          </section>
+        }
+
+        @if (submittedValues(); as values) {
+          <section
+            class="rounded-theme-lg border border-emerald-200 bg-emerald-50 p-5 text-emerald-950 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100"
+          >
+            <h2 class="text-sm font-semibold">Datos recibidos en el evento success</h2>
+            <pre class="mt-3 overflow-x-auto text-xs">{{ values | json }}</pre>
+          </section>
+        }
+      </aside>
+    </div>
+
+    <section id="referencia-esquema" class="mt-14 scroll-mt-24">
+      <div class="mb-5 max-w-3xl">
+        <p class="text-xs font-bold uppercase tracking-[0.18em] text-primary">Referencia</p>
+        <h2 class="mt-1 text-2xl font-bold tracking-tight">Propiedades del esquema JSON</h2>
+        <p class="mt-2 text-sm leading-6 text-content-muted">
+          Estas son las propiedades que acepta la molécula, desde la configuración general hasta
+          cada campo, catálogo y regla de validación.
+        </p>
+      </div>
+
+      <div class="overflow-x-auto rounded-theme-lg border border-outline bg-surface shadow-sm">
+        <table class="w-full min-w-[58rem] border-collapse text-left text-sm">
+          <thead class="bg-surface-raised text-xs uppercase tracking-wide text-content-muted">
+            <tr>
+              <th class="px-4 py-3 font-semibold">Ruta</th>
+              <th class="px-4 py-3 font-semibold">Tipo</th>
+              <th class="px-4 py-3 font-semibold">Requerido</th>
+              <th class="px-4 py-3 font-semibold">Descripción y valor predeterminado</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-outline">
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">id</td>
+              <td class="px-4 py-3">string</td>
+              <td class="px-4 py-3">Sí</td>
+              <td class="px-4 py-3 text-content-muted">
+                Identificador único usado como prefijo de los IDs accesibles.
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">title</td>
+              <td class="px-4 py-3">string</td>
+              <td class="px-4 py-3">No</td>
+              <td class="px-4 py-3 text-content-muted">Título del formulario.</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">description</td>
+              <td class="px-4 py-3">string</td>
+              <td class="px-4 py-3">No</td>
+              <td class="px-4 py-3 text-content-muted">Texto de apoyo debajo del título.</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">submitLabel</td>
+              <td class="px-4 py-3">string</td>
+              <td class="px-4 py-3">No</td>
+              <td class="px-4 py-3 text-content-muted">
+                Texto del botón de envío. Por defecto: “Enviar”.
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">resetLabel</td>
+              <td class="px-4 py-3">string</td>
+              <td class="px-4 py-3">No</td>
+              <td class="px-4 py-3 text-content-muted">
+                Si se define, muestra un botón que restablece los valores iniciales.
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">sections</td>
+              <td class="px-4 py-3">DynamicFormSection[]</td>
+              <td class="px-4 py-3">Sí</td>
+              <td class="px-4 py-3 text-content-muted">
+                Colección ordenada de secciones del formulario.
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">sections[].title</td>
+              <td class="px-4 py-3">string</td>
+              <td class="px-4 py-3">No</td>
+              <td class="px-4 py-3 text-content-muted">Título accesible de la sección.</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">sections[].description</td>
+              <td class="px-4 py-3">string</td>
+              <td class="px-4 py-3">No</td>
+              <td class="px-4 py-3 text-content-muted">Instrucciones o contexto de la sección.</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">sections[].fields</td>
+              <td class="px-4 py-3">DynamicFormField[]</td>
+              <td class="px-4 py-3">Sí</td>
+              <td class="px-4 py-3 text-content-muted">Campos que pertenecen a la sección.</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">fields[].key</td>
+              <td class="px-4 py-3">string</td>
+              <td class="px-4 py-3">Sí</td>
+              <td class="px-4 py-3 text-content-muted">
+                Clave única del control; se usa como clave en los valores enviados.
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">fields[].label</td>
+              <td class="px-4 py-3">string</td>
+              <td class="px-4 py-3">Sí</td>
+              <td class="px-4 py-3 text-content-muted">Etiqueta visible y accesible del campo.</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">fields[].type</td>
+              <td class="px-4 py-3">DynamicFormFieldType</td>
+              <td class="px-4 py-3">Sí</td>
+              <td class="px-4 py-3 text-content-muted">
+                text, email, password, tel, url, number, date, select (selectbox), radio,
+                checkbox-group, textarea o checkbox.
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">fields[].placeholder</td>
+              <td class="px-4 py-3">string</td>
+              <td class="px-4 py-3">No</td>
+              <td class="px-4 py-3 text-content-muted">Texto de ejemplo en controles de texto.</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">fields[].helperText</td>
+              <td class="px-4 py-3">string</td>
+              <td class="px-4 py-3">No</td>
+              <td class="px-4 py-3 text-content-muted">Ayuda contextual asociada al campo.</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">fields[].initialValue</td>
+              <td class="px-4 py-3">string | number | boolean</td>
+              <td class="px-4 py-3">No</td>
+              <td class="px-4 py-3 text-content-muted">
+                Valor inicial; checkbox comienza en false y los demás controles en vacío por
+                defecto.
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">fields[].fullWidth</td>
+              <td class="px-4 py-3">boolean</td>
+              <td class="px-4 py-3">No</td>
+              <td class="px-4 py-3 text-content-muted">
+                Hace que el campo abarque ambas columnas en pantallas medianas o mayores. Por
+                defecto: false.
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">fields[].options</td>
+              <td class="px-4 py-3">DynamicFormOption[]</td>
+              <td class="px-4 py-3">No</td>
+              <td class="px-4 py-3 text-content-muted">
+                Opciones estáticas para un select; cada opción contiene label y value.
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">fields[].data</td>
+              <td class="px-4 py-3">object</td>
+              <td class="px-4 py-3">No</td>
+              <td class="px-4 py-3 text-content-muted">
+                Configuración para cargar opciones de un catálogo dinámico en un select, radio o
+                checkbox-group.
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">fields[].data.key</td>
+              <td class="px-4 py-3">string</td>
+              <td class="px-4 py-3">Con data</td>
+              <td class="px-4 py-3 text-content-muted">
+                Clave pasada al callback catalogLoader del componente padre.
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">fields[].data.labelKey</td>
+              <td class="px-4 py-3">string</td>
+              <td class="px-4 py-3">No</td>
+              <td class="px-4 py-3 text-content-muted">
+                Propiedad mostrada en el select. Por defecto: label.
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">fields[].data.valueKey</td>
+              <td class="px-4 py-3">string</td>
+              <td class="px-4 py-3">No</td>
+              <td class="px-4 py-3 text-content-muted">
+                Propiedad enviada como valor del control. Por defecto: value; conserva string,
+                number o boolean.
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">fields[].validation</td>
+              <td class="px-4 py-3">object</td>
+              <td class="px-4 py-3">No</td>
+              <td class="px-4 py-3 text-content-muted">
+                Reglas adicionales o excepciones a la validación predeterminada.
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">fields[].validation.required</td>
+              <td class="px-4 py-3">boolean</td>
+              <td class="px-4 py-3">No</td>
+              <td class="px-4 py-3 text-content-muted">
+                Por defecto true; usa false para hacer opcional un campo. En checkbox requiere que
+                esté marcado.
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">fields[].validation.minLength / maxLength</td>
+              <td class="px-4 py-3">number</td>
+              <td class="px-4 py-3">No</td>
+              <td class="px-4 py-3 text-content-muted">
+                Longitud mínima y máxima de texto. maxLength predeterminado: text 255, email 254,
+                password 128, tel 32, url 2048 y textarea 2000 caracteres.
+              </td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">fields[].validation.min / max</td>
+              <td class="px-4 py-3">number</td>
+              <td class="px-4 py-3">No</td>
+              <td class="px-4 py-3 text-content-muted">Rango numérico permitido.</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-mono text-xs">fields[].validation.pattern</td>
+              <td class="px-4 py-3">string</td>
+              <td class="px-4 py-3">No</td>
+              <td class="px-4 py-3 text-content-muted">
+                Expresión regular para validar el formato del valor.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="mt-3 text-xs leading-5 text-content-muted">
+        Además del esquema, el componente recibe catalogLoader y emite success, validationError y
+        catalogLoadError. Estos callbacks/eventos se conectan en Angular, no dentro del JSON.
+        Correo, teléfono y URL también reciben validación automática; el teléfono acepta dígitos y
+        separadores comunes, pero no letras.
+      </p>
+    </section>
+  </div>
+</main>

@@ -1,0 +1,606 @@
+<div class="min-h-screen bg-canvas text-content">
+  <header class="sticky top-0 z-20 border-b border-outline/80 bg-surface/90 backdrop-blur">
+    <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3 sm:px-8">
+      <a class="flex items-center gap-3" href="#inicio" aria-label="Tailwind UI Lab, inicio">
+        <span
+          class="flex size-10 items-center justify-center rounded-theme-lg bg-primary text-sm font-bold text-on-primary"
+          >UI</span
+        >
+        <span>
+          <span class="block text-sm font-bold tracking-tight">Tailwind UI Lab</span>
+          <span class="block text-xs text-content-muted">Galería de componentes compartidos</span>
+        </span>
+      </a>
+      <nav class="hidden items-center gap-1 md:flex" aria-label="Navegación principal">
+        <a
+          class="rounded-theme-md px-3 py-2 text-sm font-medium text-content-muted transition hover:bg-surface-raised hover:text-content"
+          href="#botones"
+          >Botones</a
+        >
+        <a
+          class="rounded-theme-md px-3 py-2 text-sm font-medium text-content-muted transition hover:bg-surface-raised hover:text-content"
+          href="#tarjetas"
+          >Tarjetas</a
+        >
+        <a
+          class="rounded-theme-md px-3 py-2 text-sm font-medium text-content-muted transition hover:bg-surface-raised hover:text-content"
+          href="#formularios"
+          >Formularios</a
+        >
+        <a
+          class="rounded-theme-md px-3 py-2 text-sm font-medium text-content-muted transition hover:bg-surface-raised hover:text-content"
+          href="#anti-spam"
+          >Seguridad</a
+        >
+        <a
+          class="rounded-theme-md px-3 py-2 text-sm font-medium text-content-muted transition hover:bg-surface-raised hover:text-content"
+          href="#fotos"
+          >Fotos</a
+        >
+        <a
+          class="rounded-theme-md px-3 py-2 text-sm font-medium text-content-muted transition hover:bg-surface-raised hover:text-content"
+          href="#avisos"
+          >Avisos</a
+        >
+      </nav>
+      <div class="flex items-center gap-3">
+        <app-theme-toggle />
+        <app-theme-badge tone="success">Tailwind CSS 4</app-theme-badge>
+      </div>
+    </div>
+  </header>
+
+  <main id="inicio" class="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-14">
+    <app-theme-hero
+      eyebrow="Galería de interfaz"
+      title="Componentes para explorar."
+      description="Una muestra de componentes compartidos construidos con Tailwind CSS y tokens semánticos de tema. Explora variantes y estados en modo claro y oscuro."
+      primaryActionLabel="Explorar componentes"
+      primaryActionHref="#botones"
+      secondaryActionLabel="Ver formularios"
+      secondaryActionHref="#formularios"
+    />
+
+    <section id="botones" class="scroll-mt-24 pt-12">
+      <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[0.18em] text-primary">01 · Acciones</p>
+          <h2 class="mt-1 text-2xl font-bold tracking-tight">Botones y etiquetas</h2>
+        </div>
+        <p class="text-sm text-content-muted">Variantes, tamaños y estados visuales</p>
+      </div>
+      <div class="grid gap-5 lg:grid-cols-2">
+        <app-theme-card title="Botones" description="Acciones primarias, secundarias y discretas">
+          <div class="flex flex-wrap items-center gap-3">
+            <app-theme-button>Acción primaria</app-theme-button>
+            <app-theme-button variant="secondary">Secundario</app-theme-button>
+            <app-theme-button variant="ghost">Discreto</app-theme-button>
+            <app-theme-button variant="danger">Eliminar</app-theme-button>
+            <app-theme-button [disabled]="true">Deshabilitado</app-theme-button>
+          </div>
+          <div class="mt-5 flex flex-wrap items-center gap-3 border-t border-outline pt-5">
+            <app-theme-button size="sm" variant="contrast">Pequeño</app-theme-button>
+            <app-theme-button size="md" variant="contrast">Regular</app-theme-button>
+            <app-theme-button size="lg" variant="contrast">Grande</app-theme-button>
+            <app-theme-button size="icon" ariaLabel="Agregar">
+              <svg
+                class="size-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <path stroke-linecap="round" d="M12 5v14M5 12h14" />
+              </svg>
+            </app-theme-button>
+          </div>
+        </app-theme-card>
+
+        <app-theme-card
+          title="Badges y progreso"
+          description="Indicadores compactos y estados de avance"
+        >
+          <div class="flex flex-wrap gap-2.5">
+            <app-theme-badge tone="success">Activo</app-theme-badge>
+            <app-theme-badge tone="warning">Pendiente</app-theme-badge>
+            <app-theme-badge tone="danger">Fallido</app-theme-badge>
+            <app-theme-badge tone="info">Nuevo</app-theme-badge>
+            <app-theme-badge tone="brand">En revisión</app-theme-badge>
+            <app-theme-badge [outlined]="true">Borrador</app-theme-badge>
+          </div>
+          <app-theme-progress
+            class="mt-6 block"
+            [value]="72"
+            label="Avance del proyecto"
+            supportingText="9 de 12 tareas completadas"
+          />
+        </app-theme-card>
+      </div>
+      <app-theme-card
+        class="mt-5 block"
+        title="Loading global"
+        description="Prueba el spinner global y cómo se comporta cuando hay operaciones concurrentes."
+      >
+        <div class="flex flex-wrap gap-3">
+          <app-theme-button (pressed)="testLoading()">Una tarea · 10 segundos</app-theme-button>
+          <app-theme-button variant="secondary" (pressed)="testConcurrentLoading()">
+            Tareas simultáneas
+          </app-theme-button>
+          <app-theme-button variant="secondary" (pressed)="testContinuousLoading()">
+            Tareas continuas
+          </app-theme-button>
+        </div>
+        <p class="mt-3 text-sm text-content-muted">
+          Las tareas simultáneas inician juntas y muestran todos sus mensajes. Las continuas se
+          ejecutan una después de otra y muestran el paso actual con su contador.
+        </p>
+      </app-theme-card>
+    </section>
+
+    <section id="tarjetas" class="scroll-mt-24 pt-12">
+      <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[0.18em] text-primary">02 · Contenido</p>
+          <h2 class="mt-1 text-2xl font-bold tracking-tight">Tarjetas y métricas</h2>
+        </div>
+        <p class="text-sm text-content-muted">Superficies para resumir información</p>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        @for (metric of metrics; track metric.label) {
+          <app-theme-stat-card
+            [label]="metric.label"
+            [value]="metric.value"
+            [change]="metric.change ?? ''"
+            [hint]="metric.hint ?? ''"
+            [trend]="metric.trend"
+          />
+        }
+      </div>
+      <div class="mt-4 grid gap-4 lg:grid-cols-3">
+        <app-theme-card
+          class="lg:col-span-2 block"
+          title="Resumen del espacio"
+          description="La actividad más reciente de tu equipo"
+        >
+          <div class="grid gap-6 sm:grid-cols-3">
+            <div>
+              <p class="text-xs font-medium uppercase tracking-wide text-content-muted">
+                Tareas completadas
+              </p>
+              <p class="mt-2 text-2xl font-bold">128</p>
+              <p class="mt-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+                ↑ 18% esta semana
+              </p>
+            </div>
+            <div>
+              <p class="text-xs font-medium uppercase tracking-wide text-content-muted">
+                En progreso
+              </p>
+              <p class="mt-2 text-2xl font-bold">24</p>
+              <p class="mt-1 text-xs text-content-muted">En 6 proyectos</p>
+            </div>
+            <div>
+              <p class="text-xs font-medium uppercase tracking-wide text-content-muted">
+                Miembros del equipo
+              </p>
+              <div class="mt-2 flex items-center gap-2">
+                <div class="flex -space-x-2">
+                  <app-theme-avatar initials="LC" tone="amber" size="sm" />
+                  <app-theme-avatar initials="AR" tone="primary" size="sm" />
+                  <app-theme-avatar initials="MK" tone="rose" size="sm" />
+                  <app-theme-avatar initials="+4" tone="neutral" size="sm" />
+                </div>
+                <span class="text-xs text-content-muted">en línea</span>
+              </div>
+            </div>
+          </div>
+        </app-theme-card>
+        <app-theme-card title="Nota rápida" description="Actualizada hace 5 minutos">
+          <p class="text-sm leading-6 text-content-muted">
+            El nuevo panel está listo para revisión. Agrega tus comentarios antes de la próxima
+            reunión del equipo.
+          </p>
+          <div class="mt-5 flex items-center justify-between border-t border-outline pt-4">
+            <span class="text-xs text-content-muted">Compartida con 4 personas</span>
+            <app-theme-button variant="ghost" size="sm">Abrir nota →</app-theme-button>
+          </div>
+        </app-theme-card>
+      </div>
+    </section>
+
+    <section id="formularios" class="scroll-mt-24 pt-12">
+      <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[0.18em] text-primary">03 · Entrada</p>
+          <h2 class="mt-1 text-2xl font-bold tracking-tight">Campos y controles</h2>
+        </div>
+        <p class="text-sm text-content-muted">Estados normales, enfocados y de error</p>
+      </div>
+      <form
+        class="grid items-start gap-5 xl:grid-cols-[minmax(0,1.7fr)_minmax(18rem,0.8fr)]"
+        (submit)="submitProjectForm($event)"
+      >
+        <app-theme-card
+          title="Crear un proyecto"
+          description="Completa la información general, fechas y presupuesto"
+        >
+          <div class="space-y-6">
+            <fieldset>
+              <legend class="mb-3 text-sm font-semibold">Información general</legend>
+              <div class="grid gap-4 sm:grid-cols-2">
+                <app-theme-field
+                  inputId="project-name"
+                  label="Nombre del proyecto"
+                  value="Rediseño del sitio"
+                  helperText="Usa un nombre corto y fácil de identificar."
+                />
+                <app-theme-field
+                  inputId="project-category"
+                  label="Categoría"
+                  control="select"
+                  value="Diseño"
+                  [options]="['Diseño', 'Ingeniería', 'Marketing', 'Operaciones']"
+                />
+                <app-theme-field
+                  inputId="project-client"
+                  label="Cliente o área"
+                  value="Monchito Labs"
+                />
+                <app-theme-field
+                  inputId="project-contact-email"
+                  label="Correo de contacto"
+                  type="email"
+                  value="equipo@ejemplo.com"
+                />
+                <app-theme-field
+                  inputId="project-contact-phone"
+                  label="Teléfono de contacto"
+                  type="tel"
+                  placeholder="+52 000 000 0000"
+                />
+                <app-theme-field
+                  inputId="project-website"
+                  label="Sitio web relacionado"
+                  type="url"
+                  placeholder="https://ejemplo.com"
+                />
+              </div>
+            </fieldset>
+
+            <fieldset class="border-t border-outline pt-5">
+              <legend class="mb-3 text-sm font-semibold">Planeación</legend>
+              <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <app-theme-field
+                  inputId="project-start-date"
+                  label="Fecha de inicio"
+                  type="date"
+                  value="2026-11-02"
+                />
+                <app-theme-field
+                  inputId="project-due-date"
+                  label="Fecha de entrega"
+                  type="date"
+                  value="2026-12-18"
+                />
+                <app-theme-field
+                  inputId="project-budget"
+                  label="Presupuesto (MXN)"
+                  type="number"
+                  value="85000"
+                  helperText="Estimado inicial"
+                />
+                <app-theme-field
+                  inputId="project-priority"
+                  label="Prioridad"
+                  control="select"
+                  value="Normal"
+                  [options]="['Baja', 'Normal', 'Alta', 'Urgente']"
+                />
+              </div>
+              <app-theme-field
+                class="mt-4 block"
+                inputId="project-description"
+                label="Descripción y objetivos"
+                control="textarea"
+                placeholder="Describe el alcance, los objetivos y los resultados esperados..."
+                helperText="Incluye el contexto que ayudará al equipo a comenzar."
+              />
+            </fieldset>
+
+            <fieldset class="border-t border-outline pt-5">
+              <legend class="mb-3 text-sm font-semibold">Notificaciones</legend>
+              <div class="grid gap-3 sm:grid-cols-2">
+                <app-theme-field
+                  inputId="notify-email"
+                  label="Enviarme actualizaciones por correo"
+                  control="checkbox"
+                  [checked]="true"
+                />
+                <app-theme-field
+                  inputId="notify-deadline"
+                  label="Recordarme las fechas de entrega"
+                  control="checkbox"
+                  [checked]="true"
+                />
+              </div>
+            </fieldset>
+
+            <div class="flex flex-wrap justify-end gap-2 border-t border-outline pt-5">
+              <app-theme-button type="reset" variant="secondary">Restablecer</app-theme-button>
+              <app-theme-button type="submit">Crear proyecto</app-theme-button>
+            </div>
+          </div>
+        </app-theme-card>
+
+        <div class="space-y-5">
+          <app-theme-card title="Equipo y acceso" description="Define quién puede colaborar">
+            <div class="space-y-4">
+              <app-theme-field
+                inputId="project-owner"
+                label="Responsable"
+                control="select"
+                value="Laura Cárdenas"
+                [options]="['Laura Cárdenas', 'Andrés Ruiz', 'Mariana Kim']"
+              />
+              <fieldset>
+                <legend class="mb-2 text-sm font-medium text-content">Áreas involucradas</legend>
+                <div class="space-y-3 rounded-theme-md border border-outline p-3">
+                  <app-theme-field
+                    inputId="team-design"
+                    label="Diseño de producto"
+                    control="checkbox"
+                    [checked]="true"
+                  />
+                  <app-theme-field
+                    inputId="team-engineering"
+                    label="Ingeniería"
+                    control="checkbox"
+                    [checked]="true"
+                  />
+                  <app-theme-field inputId="team-marketing" label="Marketing" control="checkbox" />
+                </div>
+              </fieldset>
+              <app-theme-switch
+                label="Proyecto privado"
+                description="Solo las personas invitadas tendrán acceso"
+                [checked]="true"
+              />
+              <app-theme-switch
+                label="Permitir comentarios"
+                description="El equipo podrá dejar notas en el proyecto"
+                [checked]="true"
+              />
+            </div>
+          </app-theme-card>
+
+          <app-theme-card
+            title="Estados de campos"
+            description="Ejemplos de validación y disponibilidad"
+          >
+            <div class="space-y-4">
+              <app-theme-field
+                inputId="sample-username"
+                label="Nombre de usuario"
+                value="sam.."
+                state="error"
+                errorText="Usa solo letras y números."
+              />
+              <app-theme-field
+                inputId="sample-slug"
+                label="Identificador del espacio"
+                value="acme-team"
+                state="disabled"
+              />
+            </div>
+          </app-theme-card>
+        </div>
+      </form>
+    </section>
+
+    <section id="anti-spam" class="scroll-mt-24 pt-12">
+      <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[0.18em] text-primary">04 · Seguridad</p>
+          <h2 class="mt-1 text-2xl font-bold tracking-tight">Verificación anti-spam</h2>
+        </div>
+        <p class="text-sm text-content-muted">Componente compartido Cloudflare Turnstile</p>
+      </div>
+      <div class="grid gap-5 lg:grid-cols-2">
+        <app-theme-card
+          title="Cloudflare Turnstile"
+          description="Prueba local del widget y de sus estados"
+        >
+          <app-turnstile-widget
+            #turnstileWidget
+            action="gallery-demo"
+            (statusChange)="turnstileStatus = $event"
+          />
+          <div
+            class="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-outline pt-4"
+          >
+            <p class="text-sm text-content-muted" role="status" aria-live="polite">
+              Estado: {{ turnstileStatusLabels[turnstileStatus] }}
+            </p>
+            <app-theme-button variant="secondary" size="sm" (click)="turnstileWidget.resetWidget()">
+              Reiniciar prueba
+            </app-theme-button>
+          </div>
+        </app-theme-card>
+        <app-theme-alert
+          tone="info"
+          title="Modo local de prueba"
+          message="Esta clave de prueba siempre aprueba la verificación. La galería no envía datos ni representa un formulario protegido; la validación del token debe realizarse en una Edge Function."
+        />
+      </div>
+    </section>
+
+    <section id="fotos" class="scroll-mt-24 pt-12">
+      <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[0.18em] text-primary">05 · Imágenes</p>
+          <h2 class="mt-1 text-2xl font-bold tracking-tight">Foto de perfil</h2>
+        </div>
+        <p class="text-sm text-content-muted">Selección, validación y vista previa</p>
+      </div>
+      <div class="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_20rem]">
+        <div class="space-y-3">
+          <div>
+            <h3 class="font-semibold">Horizontal y responsivo</h3>
+            <p class="mt-1 text-sm text-content-muted">
+              Se acomoda en una fila cuando el espacio disponible lo permite.
+            </p>
+          </div>
+          <app-profile-picture-uploader
+            userName="Foto de perfil"
+            direction="row"
+            [previewOnly]="true"
+          />
+        </div>
+        <div class="mx-auto w-full max-w-sm space-y-3">
+          <div>
+            <h3 class="font-semibold">Vertical</h3>
+            <p class="mt-1 text-sm text-content-muted">
+              Para columnas estrechas y formularios compactos.
+            </p>
+          </div>
+          <app-profile-picture-uploader
+            userName="Foto de perfil"
+            direction="col"
+            [previewOnly]="true"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section id="avisos" class="scroll-mt-24 pt-12">
+      <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[0.18em] text-primary">06 · Feedback</p>
+          <h2 class="mt-1 text-2xl font-bold tracking-tight">Alertas y mensajes</h2>
+        </div>
+        <p class="text-sm text-content-muted">Mensajes para informar y orientar</p>
+      </div>
+      <div class="grid gap-3">
+        <app-theme-alert
+          tone="info"
+          title="Aviso"
+          message="Tu periodo de prueba termina en 7 días. Elige un plan para mantener tus proyectos activos."
+        />
+        <app-theme-alert
+          tone="success"
+          title="Cambios guardados"
+          message="La configuración de tu espacio se actualizó correctamente."
+        />
+        <app-theme-alert
+          tone="warning"
+          title="Acción requerida"
+          message="No pudimos sincronizar los últimos cambios. Revisa tu conexión e inténtalo de nuevo."
+          actionLabel="Reintentar"
+          actionHref="#inicio"
+        />
+      </div>
+      <div class="mt-5 rounded-theme-lg border border-outline bg-surface p-4">
+        <h3 class="text-sm font-semibold">Toasts</h3>
+        <p class="mt-1 text-sm text-content-muted">
+          Avisos temporales reutilizan el estilo de las alertas y se pueden cerrar manualmente.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <app-theme-button size="sm" variant="secondary" (pressed)="showToast('info')">
+            Información
+          </app-theme-button>
+          <app-theme-button size="sm" (pressed)="showToast('success')">Éxito</app-theme-button>
+          <app-theme-button size="sm" variant="secondary" (pressed)="showToast('warning')">
+            Advertencia
+          </app-theme-button>
+          <app-theme-button size="sm" variant="danger" (pressed)="showToast('danger')">
+            Error
+          </app-theme-button>
+        </div>
+        <div class="mt-5 border-t border-outline pt-4">
+          <h4 class="text-sm font-semibold">Diálogos</h4>
+          <p class="mt-1 text-sm text-content-muted">
+            Mensajes informativos y confirmaciones que esperan una respuesta.
+          </p>
+          <div class="mt-3 flex flex-wrap gap-2">
+            <app-theme-button size="sm" variant="secondary" (pressed)="showMessage()">
+              Mostrar mensaje
+            </app-theme-button>
+            <app-theme-button size="sm" variant="secondary" (pressed)="confirmMessage()">
+              Pedir confirmación
+            </app-theme-button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pt-12">
+      <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[0.18em] text-primary">07 · Datos</p>
+          <h2 class="mt-1 text-2xl font-bold tracking-tight">Tablas conectadas a APIs</h2>
+          <p class="mt-2 text-sm text-content-muted">
+            Tablas dinámicas con filtros por columna, búsqueda dentro de cada filtro, ordenamiento y
+            paginación.
+          </p>
+          <p class="mt-1 text-xs text-content-muted">
+            Cada encabezado tiene un botón de filtro. Los criterios pueden combinarse con Y/O.
+          </p>
+        </div>
+      </div>
+      <h3 class="mb-3 text-lg font-semibold">Productos</h3>
+      <app-theme-data-table
+        [rows]="products()"
+        [columns]="productColumns"
+        rowKey="id"
+        [loading]="productsLoading()"
+        [error]="productsError()"
+        entityLabel="productos"
+        (retryRequested)="retryProducts()"
+      />
+      <p class="mt-3 text-xs text-content-muted">
+        Datos de productos de demostración de
+        <a
+          class="underline underline-offset-2 hover:text-content"
+          href="https://dummyjson.com/docs/products#products-limit_skip"
+          target="_blank"
+          rel="noreferrer"
+          >DummyJSON</a
+        >.
+      </p>
+
+      <div class="mb-5 mt-10">
+        <h3 class="text-lg font-semibold">Usuarios</h3>
+        <p class="mt-1 text-sm text-content-muted">
+          Búsqueda, ordenamiento y paginación de usuarios obtenidos desde el API.
+        </p>
+      </div>
+      <app-theme-data-table
+        [rows]="users()"
+        [columns]="userColumns"
+        rowKey="id"
+        [loading]="usersLoading()"
+        [error]="usersError()"
+        entityLabel="usuarios"
+        (retryRequested)="retryUsers()"
+      />
+      <p class="mt-3 text-xs text-content-muted">
+        Datos de usuarios de demostración de
+        <a
+          class="underline underline-offset-2 hover:text-content"
+          href="https://dummyjson.com/docs/users#users-limit_skip"
+          target="_blank"
+          rel="noreferrer"
+          >DummyJSON</a
+        >. Solo se solicitan campos públicos de ejemplo para esta tabla.
+      </p>
+    </section>
+
+    <footer
+      class="mt-12 flex flex-col items-start justify-between gap-3 border-t border-outline py-6 text-xs text-content-muted sm:flex-row sm:items-center"
+    >
+      <p>Tailwind UI Lab <span class="mx-1">·</span> Galería de componentes</p>
+      <p>Angular y Tailwind CSS 4</p>
+    </footer>
+  </main>
+</div>

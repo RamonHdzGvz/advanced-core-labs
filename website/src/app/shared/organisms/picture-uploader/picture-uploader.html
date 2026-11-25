@@ -1,0 +1,92 @@
+<section
+  class="@container rounded-theme-lg border border-outline bg-surface p-6 text-content shadow-sm"
+>
+  <div class="uploader-content flex flex-col gap-5" [attr.data-direction]="direction">
+    <div class="uploader-preview relative size-24 shrink-0">
+      <div
+        class="flex size-full items-center justify-center overflow-hidden rounded-full border border-outline bg-surface-raised"
+      >
+        @if (previewUrl()) {
+          <img class="size-full object-cover" [src]="previewUrl()" [alt]="userName" />
+        } @else {
+          <app-theme-avatar initials="?" size="lg" [label]="'Sin imagen para ' + userName" />
+        }
+      </div>
+      @if (previewActionLabel) {
+        <button
+          type="button"
+          class="absolute -right-1 -bottom-1 z-10 flex size-8 items-center justify-center rounded-full border border-outline bg-surface text-content shadow-md transition hover:bg-surface-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
+          [attr.aria-label]="previewActionLabel"
+          [title]="previewActionLabel"
+          (click)="previewAction.emit()"
+        >
+          <svg
+            class="size-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="m16 4 4 4M4 20l4-.8L19.2 8a2.12 2.12 0 0 0-3-3L5 16.2 4 20Z" />
+          </svg>
+        </button>
+      }
+    </div>
+    <div class="uploader-details min-w-0 flex-1">
+      <h2 class="text-base font-semibold">{{ userName }}</h2>
+      <p class="mt-1 text-sm text-content-muted">JPG, PNG o WebP. Máximo 8 MB.</p>
+      @if (selectedFile(); as file) {
+        <p class="mt-2 truncate text-xs text-content-muted" [title]="file.name">
+          Seleccionada: {{ file.name }} · {{ (file.size / 1024 / 1024).toFixed(1) }} MB
+        </p>
+      }
+      @if (statusMessage(); as message) {
+        <p class="mt-2 text-sm text-content-muted" role="status" aria-live="polite">
+          {{ message }}
+        </p>
+      }
+    </div>
+    <div class="uploader-actions flex shrink-0 flex-wrap gap-2">
+      <input
+        #fileInput
+        class="sr-only"
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        [disabled]="isBusy()"
+        (change)="onFileSelected($event)"
+      />
+      <app-theme-button variant="secondary" [disabled]="isBusy()" (pressed)="fileInput.click()">{{
+        selectedFile() ? 'Cambiar imagen' : 'Seleccionar imagen'
+      }}</app-theme-button>
+      @if (selectedFile() && !previewOnly) {
+        <app-theme-button [disabled]="isBusy()" (pressed)="uploadSelectedFile()">{{
+          status() === 'error' ? 'Reintentar' : 'Subir imagen'
+        }}</app-theme-button>
+      }
+      @if (selectedFile() && previewOnly) {
+        <p class="max-w-56 self-center text-xs text-content-muted">
+          Vista previa: la carga está disponible desde el perfil protegido.
+        </p>
+      }
+      @if (isBusy()) {
+        <app-theme-button variant="ghost" (pressed)="cancelUpload()">Cancelar</app-theme-button>
+      } @else if (selectedFile()) {
+        <app-theme-button variant="ghost" (pressed)="clearSelection()">Descartar</app-theme-button>
+      }
+    </div>
+  </div>
+  @if (status() === 'uploading') {
+    <app-theme-progress class="mt-5 block" [value]="progress()" label="Progreso de carga" />
+  }
+  @if (errorMessage(); as message) {
+    <p
+      class="mt-5 rounded-theme-md border border-rose-300 bg-rose-50 px-4 py-3 text-sm text-rose-800 dark:border-rose-800 dark:bg-rose-950/50 dark:text-rose-200"
+      role="alert"
+    >
+      {{ message }}
+    </p>
+  }
+</section>

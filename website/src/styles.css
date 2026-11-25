@@ -1,0 +1,88 @@
+@import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-acl-midnight-harbor: var(--acl-midnight-harbor);
+  --color-acl-turquoise-blue: var(--acl-turquoise-blue);
+  --color-acl-brighto-paints: var(--acl-brighto-paints);
+  --color-acl-slate-channel: var(--acl-slate-channel);
+  --color-acl-pale-steel: var(--acl-pale-steel);
+  --color-acl-sea-fog: var(--acl-sea-fog);
+  --color-acl-ice-tint: var(--acl-ice-tint);
+  --color-canvas: var(--app-canvas);
+  --color-surface: var(--app-surface);
+  --color-surface-raised: var(--app-surface-raised);
+  --color-content: var(--app-content);
+  --color-content-muted: var(--app-content-muted);
+  --color-outline: var(--app-border);
+  --color-primary: var(--app-primary);
+  --color-primary-hover: var(--app-primary-hover);
+  --color-on-primary: var(--app-on-primary);
+  --color-focus-ring: var(--app-focus-ring);
+  --radius-theme-sm: var(--app-radius-sm);
+  --radius-theme-md: var(--app-radius-md);
+  --radius-theme-lg: var(--app-radius-lg);
+  --font-theme: var(--app-font-family);
+  --font-sans: var(--app-font-family);
+}
+
+:root {
+  color-scheme: light;
+  --acl-midnight-harbor: #0b3658;
+  --acl-turquoise-blue: #00ffef;
+  --acl-brighto-paints: #f7f6f8;
+  --acl-slate-channel: #486984;
+  --acl-pale-steel: #688dac;
+  --acl-sea-fog: #dde7ee;
+  --acl-ice-tint: #e6f1fa;
+
+  --app-canvas: var(--acl-brighto-paints);
+  --app-surface: #ffffff;
+  --app-surface-raised: var(--acl-ice-tint);
+  --app-content: var(--acl-midnight-harbor);
+  --app-content-muted: var(--acl-slate-channel);
+  --app-border: var(--acl-sea-fog);
+  --app-primary: var(--acl-midnight-harbor);
+  --app-primary-hover: var(--acl-slate-channel);
+  --app-on-primary: var(--acl-brighto-paints);
+  --app-focus-ring: var(--acl-turquoise-blue);
+  --app-radius-sm: 0.5rem;
+  --app-radius-md: 0.75rem;
+  --app-radius-lg: 1.25rem;
+  --app-font-family: 'Figtree', system-ui, sans-serif;
+  --app-base-font-size: 16px;
+}
+
+:root.dark {
+  color-scheme: dark;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background-color: var(--app-canvas);
+  color: var(--app-content);
+  font-family: var(--app-font-family);
+  font-size: var(--app-base-font-size);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+::selection {
+  background: var(--acl-turquoise-blue);
+  color: var(--acl-midnight-harbor);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

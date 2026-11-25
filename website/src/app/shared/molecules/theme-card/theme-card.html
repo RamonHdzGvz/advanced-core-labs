@@ -1,0 +1,13 @@
+<article [class]="classes">
+  @if (title || description) {
+    <header class="mb-5">
+      @if (title) {
+        <h3 class="text-sm font-semibold text-content">{{ title }}</h3>
+      }
+      @if (description) {
+        <p class="mt-1 text-sm text-content-muted">{{ description }}</p>
+      }
+    </header>
+  }
+  <ng-content />
+</article>

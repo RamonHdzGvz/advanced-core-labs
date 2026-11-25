@@ -1,0 +1,13 @@
+<section
+  class="w-full max-w-2xl rounded-3xl border border-white/10 bg-white/5 p-8 text-center shadow-2xl sm:p-12"
+>
+  <p class="text-sm font-semibold uppercase tracking-[0.24em] text-slate-400">Error</p>
+  <app-error-code [code]="error.code" />
+  <app-error-message [title]="error.title" [description]="error.description" />
+  <a
+    [routerLink]="error.actionUrl"
+    class="mt-8 inline-flex min-h-11 items-center justify-center rounded-lg bg-indigo-500 px-5 py-3 font-semibold text-white transition hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-300"
+  >
+    {{ error.actionLabel }}
+  </a>
+</section>

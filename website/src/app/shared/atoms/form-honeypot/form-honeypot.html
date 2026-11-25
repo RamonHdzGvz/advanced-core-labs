@@ -1,0 +1,12 @@
+<input
+  class="sr-only"
+  type="text"
+  [id]="inputId"
+  [name]="fieldName"
+  [value]="value"
+  [disabled]="disabled"
+  autocomplete="off"
+  tabindex="-1"
+  aria-hidden="true"
+  (input)="updateValue($event)"
+/>

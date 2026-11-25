@@ -1,0 +1,12 @@
+<app-theme-card padding="sm">
+  <p class="text-sm font-medium text-content-muted">{{ label }}</p>
+  <p class="mt-4 text-3xl font-bold tracking-tight text-content">{{ value }}</p>
+  <p class="mt-2 text-xs">
+    @if (change) {
+      <span class="font-semibold" [class]="trendClasses">{{ change }}</span>
+    }
+    @if (hint) {
+      <span class="ml-1 text-content-muted">{{ hint }}</span>
+    }
+  </p>
+</app-theme-card>

@@ -1,0 +1,24 @@
+<main class="grid min-h-screen place-items-center bg-slate-950 px-6 text-white">
+  <section
+    class="w-full max-w-xl rounded-3xl border border-white/10 bg-white/5 p-10 text-center shadow-2xl"
+  >
+    <p class="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-300">
+      Subdominio secured
+    </p>
+    <h1 class="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">Home</h1>
+    <p class="mt-4 text-lg leading-8 text-slate-300">
+      Bienvenido al área segura. Esta página y la sesión se reinician al volver a entrar.
+    </p>
+    <p class="mt-8 text-sm text-slate-300" aria-live="polite">
+      Tiempo en esta página: <span class="font-semibold text-white">{{ elapsedSeconds() }}</span>
+      segundos
+    </p>
+    <p class="mt-2 text-xs text-slate-400">La sesión termina tras 60 segundos sin actividad.</p>
+    <a
+      routerLink="/profile"
+      class="mt-8 inline-flex rounded-lg bg-indigo-500 px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-300"
+    >
+      Ir al perfil
+    </a>
+  </section>
+</main>

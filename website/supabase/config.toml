@@ -1,0 +1,11 @@
+project_id = "boilerplate-angular-tailwindcss"
+
+[functions.cloudinary-signature]
+enabled = true
+verify_jwt = true
+entrypoint = "./functions/cloudinary-signature/index.ts"
+
+[functions.supabase-ping]
+enabled = true
+verify_jwt = false
+entrypoint = "./functions/supabase-ping/index.ts"

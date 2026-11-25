@@ -1,0 +1,57 @@
+@if (control === 'checkbox') {
+  <label class="flex items-center gap-2 text-sm text-content-muted" [for]="inputId">
+    <input
+      [id]="inputId"
+      type="checkbox"
+      [checked]="checked"
+      [disabled]="state === 'disabled'"
+      class="size-4 rounded border-outline accent-primary focus:ring-focus-ring"
+    />
+    <span>{{ label }}</span>
+  </label>
+} @else {
+  <div class="block">
+    <label class="mb-1.5 block text-sm font-medium text-content" [for]="inputId">
+      {{ label }}
+    </label>
+    @if (control === 'textarea') {
+      <textarea
+        [id]="inputId"
+        rows="3"
+        [value]="value"
+        [placeholder]="placeholder"
+        [disabled]="state === 'disabled'"
+        [attr.aria-invalid]="state === 'error'"
+        [class]="controlClasses + ' w-full resize-y'"
+      ></textarea>
+    } @else if (control === 'select') {
+      <select
+        [id]="inputId"
+        [value]="value"
+        [disabled]="state === 'disabled'"
+        [class]="controlClasses"
+      >
+        @for (option of options; track option) {
+          <option [value]="option">{{ option }}</option>
+        }
+      </select>
+    } @else {
+      <input
+        [id]="inputId"
+        [type]="type"
+        [value]="value"
+        [placeholder]="placeholder"
+        [disabled]="state === 'disabled'"
+        [attr.aria-invalid]="state === 'error'"
+        [class]="controlClasses"
+      />
+    }
+    @if (errorText) {
+      <span class="mt-1.5 block text-xs font-medium text-rose-600 dark:text-rose-300">
+        {{ errorText }}
+      </span>
+    } @else if (helperText) {
+      <span class="mt-1.5 block text-xs text-content-muted">{{ helperText }}</span>
+    }
+  </div>
+}

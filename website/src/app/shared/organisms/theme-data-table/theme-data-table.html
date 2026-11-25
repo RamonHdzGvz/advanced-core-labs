@@ -1,0 +1,366 @@
+<section
+  class="overflow-hidden rounded-theme-lg border border-outline bg-surface text-content shadow-sm"
+  [attr.aria-busy]="loading"
+>
+  @if (activeFilterCount > 0) {
+    <div class="flex items-center justify-between gap-3 border-b border-outline px-5 py-3">
+      <p class="text-xs text-content-muted" aria-live="polite">
+        {{ activeFilterCount }}
+        {{ activeFilterCount === 1 ? 'filtro aplicado' : 'filtros aplicados' }}
+      </p>
+      <app-theme-button variant="ghost" size="sm" (pressed)="clearAllFilters()">
+        Limpiar filtros
+      </app-theme-button>
+    </div>
+  }
+
+  @if (loading && rows.length > 0) {
+    <p class="border-b border-outline px-5 py-2 text-xs text-content-muted" role="status">
+      Actualizando {{ entityLabel }}…
+    </p>
+  }
+  @if (error) {
+    <div
+      class="flex flex-wrap items-center justify-between gap-3 border-b border-outline px-5 py-4"
+      role="alert"
+    >
+      <p class="text-sm text-rose-700 dark:text-rose-300">{{ error }}</p>
+      <app-theme-button variant="secondary" size="sm" (pressed)="retryRequested.emit()">
+        Reintentar
+      </app-theme-button>
+    </div>
+  }
+
+  <div class="overflow-x-auto" (scroll)="closeFilterPanel()">
+    <table class="min-w-full divide-y divide-outline text-left text-sm">
+      <thead class="bg-surface-raised">
+        <tr>
+          @for (column of columns; track column.key) {
+            <th
+              scope="col"
+              class="whitespace-nowrap px-4 py-3.5 font-semibold text-content-muted"
+              [attr.aria-sort]="column.sortable ? sortAriaValue(column.key) : null"
+            >
+              <div class="flex items-center gap-2">
+                @if (column.sortable) {
+                  <button
+                    class="inline-flex items-center gap-1 hover:text-content"
+                    type="button"
+                    [disabled]="loading"
+                    (click)="toggleSort(column.key)"
+                  >
+                    {{ column.label }}
+                    <span aria-hidden="true">{{
+                      sortKey === column.key ? (sortDirection === 'asc' ? '↑' : '↓') : '↕'
+                    }}</span>
+                  </button>
+                } @else {
+                  {{ column.label }}
+                }
+                @if (column.filterable !== false) {
+                  <button
+                    class="relative flex size-7 shrink-0 items-center justify-center rounded-theme-sm text-content-muted transition hover:bg-surface hover:text-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
+                    type="button"
+                    [attr.aria-label]="'Filtrar por ' + column.label"
+                    [attr.aria-expanded]="activeFilterKey === column.key"
+                    [attr.aria-controls]="idPrefix + '-filter-panel'"
+                    [title]="'Filtrar por ' + column.label"
+                    [disabled]="loading"
+                    (click)="toggleFilter(column, $event)"
+                  >
+                    <svg class="size-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M3 5h18l-7 8v5l-4 2v-7L3 5Z" />
+                    </svg>
+                    @if (appliedFilters[column.key]) {
+                      <span
+                        class="absolute right-0.5 top-0.5 size-1.5 rounded-full bg-primary"
+                        aria-hidden="true"
+                      ></span>
+                    }
+                  </button>
+                }
+              </div>
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-outline/70">
+        @if (loading && rows.length === 0) {
+          <tr>
+            <td
+              class="px-5 py-10 text-center text-sm text-content-muted"
+              [attr.colspan]="columns.length"
+            >
+              Cargando {{ entityLabel }}…
+            </td>
+          </tr>
+        } @else if (rows.length === 0) {
+          <tr>
+            <td
+              class="px-5 py-10 text-center text-sm text-content-muted"
+              [attr.colspan]="columns.length"
+            >
+              {{
+                error
+                  ? 'No se pudieron cargar los datos.'
+                  : 'No hay ' + entityLabel + ' para mostrar.'
+              }}
+            </td>
+          </tr>
+        } @else if (sortedRows.length === 0) {
+          <tr>
+            <td
+              class="px-5 py-10 text-center text-sm text-content-muted"
+              [attr.colspan]="columns.length"
+            >
+              Ningún registro coincide con los filtros aplicados.
+            </td>
+          </tr>
+        } @else {
+          @for (row of visibleRows; track trackRow($index, row)) {
+            <tr class="transition hover:bg-surface-raised">
+              @for (column of columns; track column.key) {
+                <td class="px-5 py-3.5" [class.whitespace-nowrap]="column.display !== 'text'">
+                  {{ formatCell(row[column.key], column.display) }}
+                </td>
+              }
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div
+    class="flex flex-wrap items-center justify-between gap-4 border-t border-outline px-5 py-3.5"
+  >
+    <p class="text-xs text-content-muted" aria-live="polite">
+      Mostrando {{ firstVisibleRow }}–{{ lastVisibleRow }} de {{ sortedRows.length }}
+      {{ entityLabel }}
+    </p>
+    <div class="flex flex-wrap items-center gap-3">
+      <label
+        class="flex items-center gap-2 text-xs text-content-muted"
+        [attr.for]="idPrefix + '-page-size'"
+      >
+        Filas
+        <select
+          [id]="idPrefix + '-page-size'"
+          class="rounded-theme-sm border border-outline bg-surface px-2 py-1.5 text-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
+          [value]="pageSize"
+          [disabled]="loading"
+          (change)="changePageSize($event)"
+        >
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+        </select>
+      </label>
+      <span class="text-xs text-content-muted"
+        >Página {{ currentPage + 1 }} de {{ totalPages }}</span
+      >
+      <div class="flex gap-2">
+        <app-theme-button
+          variant="secondary"
+          size="sm"
+          [disabled]="currentPage === 0 || loading"
+          (pressed)="previousPage()"
+        >
+          Anterior
+        </app-theme-button>
+        <app-theme-button
+          variant="secondary"
+          size="sm"
+          [disabled]="currentPage + 1 >= totalPages || loading"
+          (pressed)="nextPage()"
+        >
+          Siguiente
+        </app-theme-button>
+      </div>
+    </div>
+  </div>
+
+  @if (activeFilterColumn; as column) {
+    <section
+      [id]="idPrefix + '-filter-panel'"
+      class="fixed z-50 max-h-[calc(100dvh-1rem)] w-[min(18rem,calc(100vw-1rem))] overflow-y-auto rounded-theme-md border border-outline bg-surface p-3 text-content shadow-xl"
+      [style.top.px]="panelTop"
+      [style.left.px]="panelLeft"
+      role="dialog"
+      [attr.aria-label]="'Filtro para ' + column.label"
+    >
+      <div class="mb-3 flex items-center justify-between border-b border-outline pb-2">
+        <h3 class="flex items-center gap-2 text-sm font-semibold">
+          <svg
+            class="size-4 text-content-muted"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M3 5h18l-7 8v5l-4 2v-7L3 5Z" />
+          </svg>
+          Filtrar · {{ column.label }}
+        </h3>
+        <button
+          class="flex size-7 items-center justify-center rounded-theme-sm text-content-muted hover:bg-surface-raised hover:text-content focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
+          type="button"
+          aria-label="Cerrar filtro"
+          (click)="closeFilterPanel()"
+        >
+          ×
+        </button>
+      </div>
+
+      @if (activeFilterType === 'set') {
+        <label class="relative mb-2 block">
+          <span class="sr-only">Buscar opciones</span>
+          <svg
+            class="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-content-muted"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <circle cx="11" cy="11" r="7" />
+            <path stroke-linecap="round" d="m16 16 4 4" />
+          </svg>
+          <input
+            class="block w-full rounded-theme-sm border border-outline bg-surface py-2 pl-9 pr-3 text-sm text-content outline-none placeholder:text-content-muted focus:border-primary focus:ring-2 focus:ring-focus-ring/20"
+            type="search"
+            placeholder="Buscar opciones"
+            [value]="optionSearch"
+            (input)="onOptionSearch($event)"
+          />
+        </label>
+        <label
+          class="flex cursor-pointer items-center gap-2 border-b border-outline py-2 text-sm font-medium"
+        >
+          <input
+            class="size-4 accent-primary"
+            type="checkbox"
+            [checked]="allOptionsSelected"
+            (change)="toggleAllOptions($event)"
+          />
+          Seleccionar todo
+        </label>
+        <div class="max-h-44 overflow-y-auto py-1">
+          @for (option of visibleFilterOptions; track option) {
+            <label
+              class="flex cursor-pointer items-center gap-2 rounded-theme-sm px-1 py-1.5 text-sm hover:bg-surface-raised"
+            >
+              <input
+                class="size-4 accent-primary"
+                type="checkbox"
+                [checked]="selectedOptions.includes(option)"
+                (change)="toggleOption($event, option)"
+              />
+              <span class="truncate">{{ option }}</span>
+            </label>
+          } @empty {
+            <p class="px-1 py-3 text-sm text-content-muted">No hay opciones coincidentes.</p>
+          }
+        </div>
+      } @else {
+        <div class="space-y-3">
+          <div>
+            <label
+              class="mb-1 block text-xs font-medium text-content-muted"
+              [attr.for]="idPrefix + '-operator-one'"
+            >
+              Condición
+            </label>
+            <select
+              [id]="idPrefix + '-operator-one'"
+              class="block w-full rounded-theme-sm border border-outline bg-surface px-2.5 py-2 text-sm text-content outline-none focus:border-primary focus:ring-2 focus:ring-focus-ring/20"
+              [value]="firstCondition.operator"
+              (change)="onOperatorChange($event, 'first')"
+            >
+              @for (option of operatorOptions; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
+            </select>
+            <input
+              class="mt-1.5 block w-full rounded-theme-sm border border-outline bg-surface px-2.5 py-2 text-sm text-content outline-none placeholder:text-content-muted focus:border-primary focus:ring-2 focus:ring-focus-ring/20"
+              [type]="activeFilterType === 'number' ? 'number' : 'text'"
+              [step]="activeFilterType === 'number' ? 'any' : null"
+              [value]="firstCondition.value"
+              [placeholder]="
+                activeFilterType === 'number' ? 'Ingresa un número' : 'Ingresa un valor'
+              "
+              [attr.aria-label]="'Valor para ' + column.label"
+              (input)="onConditionValueChange($event, 'first')"
+            />
+          </div>
+
+          <div class="flex gap-1" role="group" aria-label="Cómo combinar las condiciones">
+            <button
+              class="rounded-theme-sm border px-3 py-1 text-xs font-semibold transition"
+              [class.border-primary]="conditionLogic === 'and'"
+              [class.bg-primary]="conditionLogic === 'and'"
+              [class.text-on-primary]="conditionLogic === 'and'"
+              [class.border-outline]="conditionLogic !== 'and'"
+              [class.text-content-muted]="conditionLogic !== 'and'"
+              type="button"
+              [attr.aria-pressed]="conditionLogic === 'and'"
+              (click)="conditionLogic = 'and'"
+            >
+              Y
+            </button>
+            <button
+              class="rounded-theme-sm border px-3 py-1 text-xs font-semibold transition"
+              [class.border-primary]="conditionLogic === 'or'"
+              [class.bg-primary]="conditionLogic === 'or'"
+              [class.text-on-primary]="conditionLogic === 'or'"
+              [class.border-outline]="conditionLogic !== 'or'"
+              [class.text-content-muted]="conditionLogic !== 'or'"
+              type="button"
+              [attr.aria-pressed]="conditionLogic === 'or'"
+              (click)="conditionLogic = 'or'"
+            >
+              O
+            </button>
+            <span class="self-center pl-1 text-xs text-content-muted">Combinar con</span>
+          </div>
+
+          <div>
+            <label
+              class="mb-1 block text-xs font-medium text-content-muted"
+              [attr.for]="idPrefix + '-operator-two'"
+            >
+              Segunda condición (opcional)
+            </label>
+            <select
+              [id]="idPrefix + '-operator-two'"
+              class="block w-full rounded-theme-sm border border-outline bg-surface px-2.5 py-2 text-sm text-content outline-none focus:border-primary focus:ring-2 focus:ring-focus-ring/20"
+              [value]="secondCondition.operator"
+              (change)="onOperatorChange($event, 'second')"
+            >
+              @for (option of operatorOptions; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
+            </select>
+            <input
+              class="mt-1.5 block w-full rounded-theme-sm border border-outline bg-surface px-2.5 py-2 text-sm text-content outline-none placeholder:text-content-muted focus:border-primary focus:ring-2 focus:ring-focus-ring/20"
+              [type]="activeFilterType === 'number' ? 'number' : 'text'"
+              [step]="activeFilterType === 'number' ? 'any' : null"
+              [value]="secondCondition.value"
+              placeholder="Opcional"
+              [attr.aria-label]="'Segundo valor para ' + column.label"
+              (input)="onConditionValueChange($event, 'second')"
+            />
+          </div>
+        </div>
+      }
+
+      <div class="mt-3 flex justify-end gap-2 border-t border-outline pt-3">
+        <app-theme-button variant="secondary" size="sm" (pressed)="clearColumnFilter()">
+          Limpiar
+        </app-theme-button>
+        <app-theme-button [disabled]="!canApplyFilter" size="sm" (pressed)="applyFilter()">
+          Filtrar
+        </app-theme-button>
+      </div>
+    </section>
+  }
+</section>

@@ -1,0 +1,26 @@
+<div class="rounded-theme-lg bg-surface-raised p-4">
+  @if (label || value >= 0) {
+    <div class="flex items-center justify-between gap-4 text-sm">
+      @if (label) {
+        <span class="font-medium text-content">{{ label }}</span>
+      }
+      <span class="font-semibold text-primary">{{ normalizedValue }}%</span>
+    </div>
+  }
+  <div
+    class="mt-3 h-2 overflow-hidden rounded-full bg-outline/70"
+    role="progressbar"
+    [attr.aria-label]="label || 'Progress'"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    [attr.aria-valuenow]="normalizedValue"
+  >
+    <div
+      class="h-full rounded-full bg-primary transition-[width]"
+      [style.width.%]="normalizedValue"
+    ></div>
+  </div>
+  @if (supportingText) {
+    <p class="mt-2 text-xs text-content-muted">{{ supportingText }}</p>
+  }
+</div>

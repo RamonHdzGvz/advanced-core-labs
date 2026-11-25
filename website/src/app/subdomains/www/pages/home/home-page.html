@@ -1,0 +1,519 @@
+<div class="min-h-screen bg-canvas text-content">
+  <header class="site-header sticky top-0 z-40 px-3 pt-3 sm:px-6 sm:pt-5">
+    <div
+      class="mx-auto flex max-w-7xl items-stretch overflow-hidden rounded-2xl bg-surface shadow-[0_8px_24px_rgba(11,54,88,.14)]"
+    >
+      <a
+        class="brand-block flex shrink-0 items-center gap-2.5 bg-acl-midnight-harbor px-3 py-3 text-acl-brighto-paints sm:gap-3 sm:px-5"
+        href="#inicio"
+        aria-label="AdvancedCoreLabs, inicio"
+        (click)="closeMobileMenu()"
+      >
+        <img class="size-10 object-contain sm:size-12" src="acl-mark.png" alt="" />
+        <span
+          class="brand-wordmark flex flex-col font-brand text-[15px] font-bold leading-[0.95] sm:text-lg"
+        >
+          <span>Advanced</span>
+          <span class="text-acl-turquoise-blue">CoreLabs</span>
+        </span>
+      </a>
+      
+      <nav
+        class="hidden min-w-0 flex-1 items-center justify-center gap-0 px-2 lg:flex xl:gap-1 xl:px-4"
+        aria-label="Navegación principal"
+      >
+        <a class="nav-link" href="#inicio">Inicio</a>
+        <a class="nav-link" href="#nosotros">Nosotros</a>
+        <a class="nav-link" href="#servicios">Servicios</a>
+        <a class="nav-link" href="#proceso">Cómo trabajamos</a>
+      </nav>
+
+      <a
+        class="contact-link hidden shrink-0 items-center gap-2 self-center whitespace-nowrap rounded-full bg-acl-turquoise-blue mr-4 px-4 py-3 text-sm font-semibold text-acl-midnight-harbor transition hover:brightness-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-acl-turquoise-blue/40 lg:inline-flex xl:px-5"
+        href="#contacto"
+      >
+        Contáctanos
+        <svg
+          class="size-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            d="M5 12h14m-6-6 6 6-6 6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </svg>
+      </a>
+
+      <button
+        class="ml-auto inline-flex size-12 self-center items-center justify-center rounded-full text-acl-midnight-harbor transition hover:bg-acl-ice-tint focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-acl-turquoise-blue/40 lg:hidden"
+        type="button"
+        [attr.aria-expanded]="mobileMenuOpen()"
+        aria-controls="mobile-navigation"
+        [attr.aria-label]="mobileMenuOpen() ? 'Cerrar menú' : 'Abrir menú'"
+        (click)="toggleMobileMenu()"
+      >
+        @if (mobileMenuOpen()) {
+          <svg
+            class="size-6"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path d="m6 6 12 12M18 6 6 18" stroke-linecap="round" stroke-width="2" />
+          </svg>
+        } @else {
+          <svg
+            class="size-6"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" stroke-width="2" />
+          </svg>
+        }
+      </button>
+    </div>
+
+    @if (mobileMenuOpen()) {
+      <nav
+        id="mobile-navigation"
+        class="mx-auto mt-2 grid max-w-7xl gap-1 rounded-2xl border border-outline bg-surface p-3 shadow-lg lg:hidden"
+        aria-label="Navegación móvil"
+      >
+        <a class="mobile-nav-link" href="#inicio" (click)="closeMobileMenu()">Inicio</a>
+        <a class="mobile-nav-link" href="#nosotros" (click)="closeMobileMenu()">Nosotros</a>
+        <a class="mobile-nav-link" href="#servicios" (click)="closeMobileMenu()">Servicios</a>
+        <a class="mobile-nav-link" href="#proceso" (click)="closeMobileMenu()">Cómo trabajamos</a>
+        <a
+          class="mobile-nav-link mobile-nav-link--cta"
+          href="#contacto"
+          (click)="closeMobileMenu()"
+        >
+          Contáctanos <span aria-hidden="true">→</span>
+        </a>
+      </nav>
+    }
+  </header>
+
+  <main>
+    <section
+      id="inicio"
+      class="mx-auto max-w-7xl scroll-mt-28 px-4 pb-16 pt-8 sm:px-6 sm:pb-24 sm:pt-12 lg:px-8"
+    >
+      <div
+        class="hero-panel relative overflow-hidden rounded-[24px] bg-acl-midnight-harbor text-acl-brighto-paints"
+      >
+        <div class="hero-accent" aria-hidden="true"></div>
+        <div
+          class="relative grid items-center gap-12 px-6 py-12 sm:px-10 sm:py-16 lg:grid-cols-[1.1fr_.9fr] lg:px-16 lg:py-20"
+        >
+          <div class="max-w-2xl">
+            <p
+              class="mb-5 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-acl-turquoise-blue sm:text-sm"
+            >
+              <span class="size-2 rounded-full bg-acl-turquoise-blue" aria-hidden="true"></span>
+              Soluciones digitales para tu negocio
+            </p>
+            <h1
+              class="font-sans text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.5rem]"
+            >
+              Tu negocio merece herramientas que lo impulsen.
+            </h1>
+            <p class="mt-6 max-w-xl text-base leading-7 text-white/85 sm:text-lg sm:leading-8">
+              Creamos soluciones digitales para emprendedores y pequeñas empresas. Te ayudamos a
+              tener presencia en internet, conectar con tus clientes y simplificar tareas de tu
+              negocio.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a
+                class="inline-flex min-h-12 items-center justify-center gap-3 rounded-xl bg-acl-turquoise-blue px-5 py-3 font-semibold text-acl-midnight-harbor transition hover:brightness-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/60"
+                href="#contacto"
+              >
+                Hablemos de tu proyecto
+                <span class="text-xl" aria-hidden="true">→</span>
+              </a>
+              <a
+                class="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/45 px-5 py-3 font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-acl-turquoise-blue/50"
+                href="#servicios"
+              >
+                Conoce nuestros servicios
+              </a>
+            </div>
+          </div>
+
+          <div
+            class="mx-auto w-full max-w-md"
+            aria-label="Ilustración de soluciones para un negocio"
+          >
+            <div
+              class="relative rounded-[20px] border border-white/20 bg-white p-5 text-acl-midnight-harbor shadow-[0_8px_24px_rgba(0,0,0,.18)] sm:p-7"
+            >
+              <div class="flex items-center justify-between gap-3 border-b border-acl-sea-fog pb-4">
+                <div class="flex items-center gap-3">
+                  <span
+                    class="grid size-10 place-items-center rounded-xl bg-acl-ice-tint text-acl-midnight-harbor"
+                  >
+                    <svg
+                      class="size-5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M4 19V5m0 14h16M7 15l4-4 3 2 5-6"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.8"
+                      />
+                    </svg>
+                  </span>
+                  <div>
+                    <p class="text-sm font-bold">Tu negocio, con nuevas posibilidades</p>
+                    <p class="mt-0.5 text-xs text-acl-slate-channel">
+                      Soluciones con un propósito claro
+                    </p>
+                  </div>
+                </div>
+                <span class="size-2.5 rounded-full bg-acl-turquoise-blue" aria-hidden="true"></span>
+              </div>
+              <div class="mt-5 space-y-3">
+                <div class="flex items-center gap-3 rounded-xl bg-acl-brighto-paints p-3.5">
+                  <span
+                    class="grid size-9 shrink-0 place-items-center rounded-lg bg-white text-acl-midnight-harbor"
+                  >
+                    <svg
+                      class="size-5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <rect x="3.5" y="4.5" width="17" height="15" rx="2" stroke-width="1.8" />
+                      <path
+                        d="M4 9h16M8 6.8h.01M11 6.8h.01"
+                        stroke-linecap="round"
+                        stroke-width="1.8"
+                      />
+                    </svg>
+                  </span>
+                  <span class="text-sm font-semibold">Presencia profesional en internet</span>
+                </div>
+                <div class="flex items-center gap-3 rounded-xl bg-acl-brighto-paints p-3.5">
+                  <span
+                    class="grid size-9 shrink-0 place-items-center rounded-lg bg-white text-acl-midnight-harbor"
+                  >
+                    <svg
+                      class="size-5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M12 3.5 20 8v8l-8 4.5L4 16V8l8-4.5Z"
+                        stroke-linejoin="round"
+                        stroke-width="1.8"
+                      />
+                      <path
+                        d="m4.5 8.3 7.5 4.2 7.5-4.2M12 12.5v7.7"
+                        stroke-linejoin="round"
+                        stroke-width="1.8"
+                      />
+                    </svg>
+                  </span>
+                  <span class="text-sm font-semibold">Información fácil de compartir</span>
+                </div>
+                <div class="flex items-center gap-3 rounded-xl bg-acl-brighto-paints p-3.5">
+                  <span
+                    class="grid size-9 shrink-0 place-items-center rounded-lg bg-white text-acl-midnight-harbor"
+                  >
+                    <svg
+                      class="size-5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M5 6.5h14M5 12h9M5 17.5h6"
+                        stroke-linecap="round"
+                        stroke-width="1.8"
+                      />
+                      <circle cx="18" cy="17.5" r="2.5" stroke-width="1.8" />
+                    </svg>
+                  </span>
+                  <span class="text-sm font-semibold">Tareas más sencillas de resolver</span>
+                </div>
+              </div>
+              <div
+                class="mt-5 flex items-center gap-2 border-t border-acl-sea-fog pt-4 text-xs font-medium text-acl-slate-channel"
+              >
+                <span class="size-2 rounded-full bg-acl-turquoise-blue" aria-hidden="true"></span>
+                Tecnología pensada alrededor de tus necesidades
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="nosotros" class="scroll-mt-28 bg-white py-16 sm:py-24">
+      <div
+        class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[.75fr_1.25fr] lg:gap-20 lg:px-8"
+      >
+        <div>
+          <p class="section-eyebrow">Una tecnología cercana</p>
+          <h2 class="mt-3 max-w-md text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
+            La tecnología debe trabajar para tu negocio.
+          </h2>
+        </div>
+        <div class="space-y-5 text-base leading-8 text-acl-slate-channel sm:text-lg">
+          <p>
+            Emprender no es sencillo. Cada día implica tomar decisiones, cuidar recursos y encontrar
+            mejores formas de hacer las cosas.
+          </p>
+          <p>
+            Creemos que las herramientas digitales no deberían ser complicadas ni estar fuera del
+            alcance de los pequeños negocios. Por eso buscamos soluciones prácticas, bien
+            construidas y pensadas para resolver necesidades reales.
+          </p>
+          <p
+            class="border-l-4 border-acl-turquoise-blue pl-5 font-semibold text-acl-midnight-harbor"
+          >
+            No se trata de utilizar tecnología por utilizarla, sino de encontrar nuevas
+            posibilidades para que tu negocio pueda avanzar.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="servicios" class="scroll-mt-28 py-16 sm:py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-10 max-w-2xl">
+          <p class="section-eyebrow">Lo que podemos construir contigo</p>
+          <h2 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+            Soluciones digitales para impulsar tu negocio.
+          </h2>
+          <p class="mt-4 text-base leading-7 text-acl-slate-channel sm:text-lg">
+            Cada proyecto parte de una necesidad concreta y busca hacer más sencilla la manera de
+            presentar, compartir o desarrollar tu negocio.
+          </p>
+        </div>
+
+        <div class="grid gap-5 lg:grid-cols-3">
+          <article class="service-card">
+            <span class="service-icon" aria-hidden="true">
+              <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <rect x="3.5" y="4.5" width="17" height="15" rx="2" stroke-width="1.8" />
+                <path d="M4 9h16M8 6.8h.01M11 6.8h.01" stroke-linecap="round" stroke-width="1.8" />
+              </svg>
+            </span>
+            <p class="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-acl-slate-channel">
+              01 · Presencia digital
+            </p>
+            <h3 class="mt-2 text-2xl font-bold tracking-tight">
+              Una presencia profesional para tu negocio.
+            </h3>
+            <p class="mt-4 leading-7 text-acl-slate-channel">
+              Creamos páginas de aterrizaje que presentan tu negocio, comunican lo que ofreces y
+              facilitan que tus clientes potenciales se pongan en contacto contigo.
+            </p>
+            <ul class="mt-5 space-y-2.5 text-sm leading-6 text-acl-midnight-harbor">
+              <li class="benefit-item">Presentación clara de tus productos o servicios</li>
+              <li class="benefit-item">Formulario para consultas de clientes</li>
+              <li class="benefit-item">Diseño adaptable a dispositivos móviles</li>
+            </ul>
+            <a class="service-cta" href="#contacto"
+              >Quiero una landing page <span aria-hidden="true">→</span></a
+            >
+          </article>
+
+          <article class="service-card">
+            <span class="service-icon" aria-hidden="true">
+              <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path
+                  d="M12 3.5 20 8v8l-8 4.5L4 16V8l8-4.5Z"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+                <path
+                  d="m4.5 8.3 7.5 4.2 7.5-4.2M12 12.5v7.7"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                />
+              </svg>
+            </span>
+            <p class="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-acl-slate-channel">
+              02 · Información compartible
+            </p>
+            <h3 class="mt-2 text-2xl font-bold tracking-tight">
+              Haz que tu negocio sea más fácil de encontrar y compartir.
+            </h3>
+            <p class="mt-4 leading-7 text-acl-slate-channel">
+              Creamos perfiles digitales para empresas y negocios, con información esencial, una
+              presentación de sus servicios y un código QR para compartir.
+            </p>
+            <ul class="mt-5 space-y-2.5 text-sm leading-6 text-acl-midnight-harbor">
+              <li class="benefit-item">Mini perfil digital para el negocio</li>
+              <li class="benefit-item">Información de contacto y presentación comercial</li>
+              <li class="benefit-item">Código QR para compartir fácilmente</li>
+            </ul>
+            <a class="service-cta" href="#contacto"
+              >Quiero conocer el directorio <span aria-hidden="true">→</span></a
+            >
+            <p class="mt-3 text-xs leading-5 text-acl-slate-channel">
+              El nombre “Directorio Empresarial” es provisional.
+            </p>
+          </article>
+
+          <article class="service-card">
+            <span class="service-icon" aria-hidden="true">
+              <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <rect x="4" y="3.5" width="16" height="17" rx="2.5" stroke-width="1.8" />
+                <path d="M8 8h8M8 12h4M8 16h6" stroke-linecap="round" stroke-width="1.8" />
+              </svg>
+            </span>
+            <p class="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-acl-slate-channel">
+              03 · Herramientas a medida
+            </p>
+            <h3 class="mt-2 text-2xl font-bold tracking-tight">
+              Herramientas digitales para problemas específicos.
+            </h3>
+            <p class="mt-4 leading-7 text-acl-slate-channel">
+              Desarrollamos pequeñas aplicaciones enfocadas en resolver necesidades concretas de los
+              negocios, desde simplificar una tarea hasta organizar mejor un proceso.
+            </p>
+            <ul class="mt-5 space-y-2.5 text-sm leading-6 text-acl-midnight-harbor">
+              <li class="benefit-item">Soluciones enfocadas en necesidades reales</li>
+              <li class="benefit-item">Funcionalidades sin complejidad innecesaria</li>
+              <li class="benefit-item">Desarrollo orientado a facilitar procesos</li>
+            </ul>
+            <a class="service-cta" href="#contacto"
+              >Cuéntanos qué necesitas <span aria-hidden="true">→</span></a
+            >
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="proceso" class="scroll-mt-28 bg-acl-ice-tint py-16 sm:py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl">
+          <p class="section-eyebrow">Cómo trabajamos</p>
+          <h2 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+            Primero entendemos tu necesidad. Después construimos la solución.
+          </h2>
+        </div>
+        <ol class="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <li class="process-step">
+            <span class="process-number">01</span>
+            <h3>Nos cuentas tu idea</h3>
+            <p>Conocemos tu negocio y lo que necesitas.</p>
+          </li>
+          <li class="process-step">
+            <span class="process-number">02</span>
+            <h3>Analizamos la necesidad</h3>
+            <p>Identificamos qué solución tiene sentido y cuál es su alcance.</p>
+          </li>
+          <li class="process-step">
+            <span class="process-number">03</span>
+            <h3>Desarrollamos la propuesta</h3>
+            <p>Construimos una solución práctica y adecuada para tu proyecto.</p>
+          </li>
+          <li class="process-step">
+            <span class="process-number">04</span>
+            <h3>Te acompañamos</h3>
+            <p>Buscamos que aproveches correctamente la solución para tu negocio.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="contacto" class="scroll-mt-28 py-16 sm:py-24">
+      <div
+        class="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[.8fr_1.2fr] lg:gap-16 lg:px-8"
+      >
+        <div class="pt-2">
+          <p class="section-eyebrow">Hablemos de tu proyecto</p>
+          <h2 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+            ¿Tienes una idea o necesitas resolver algo en tu negocio?
+          </h2>
+          <p class="mt-5 text-base leading-7 text-acl-slate-channel sm:text-lg">
+            Cuéntanos qué tienes en mente. Podemos ayudarte a encontrar una solución digital que
+            tenga sentido para tu negocio.
+          </p>
+          <div
+            class="mt-7 flex items-start gap-3 rounded-xl border border-acl-sea-fog bg-acl-ice-tint p-4 text-sm leading-6 text-acl-midnight-harbor"
+            role="note"
+          >
+            <span class="mt-0.5 font-bold text-acl-midnight-harbor" aria-hidden="true">i</span>
+            <p>
+              El formulario todavía no está conectado a un servicio de recepción. No se transmitirá
+              ninguna información hasta configurar esa integración.
+            </p>
+          </div>
+          @if (contactStatus()) {
+            <p
+              class="mt-4 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm leading-6 text-amber-900"
+              role="alert"
+            >
+              {{ contactStatus() }}
+            </p>
+          }
+        </div>
+
+        <div
+          class="rounded-[20px] border border-acl-sea-fog bg-white p-5 shadow-[0_2px_8px_rgba(11,54,88,.06)] sm:p-8"
+        >
+          <app-dynamic-form [schema]="contactForm" (success)="onContactFormValidated()" />
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-acl-midnight-harbor text-acl-brighto-paints">
+    <div
+      class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1fr_auto] lg:items-end lg:px-8"
+    >
+      <div>
+        <a
+          class="inline-flex items-center gap-3"
+          href="#inicio"
+          aria-label="AdvancedCoreLabs, volver al inicio"
+        >
+          <img class="size-10 object-contain" src="acl-mark.png" alt="" />
+          <span class="flex flex-col font-brand text-base font-bold leading-[0.95]">
+            <span>Advanced</span>
+            <span class="text-acl-turquoise-blue">CoreLabs</span>
+          </span>
+        </a>
+        <p class="mt-4 max-w-lg text-sm leading-6 text-white/75">
+          Creamos soluciones digitales prácticas para emprendedores y pequeñas empresas.
+        </p>
+      </div>
+      <nav
+        class="flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold"
+        aria-label="Navegación del pie de página"
+      >
+        <a class="footer-link" href="#inicio">Inicio</a>
+        <a class="footer-link" href="#nosotros">Nosotros</a>
+        <a class="footer-link" href="#servicios">Servicios</a>
+        <a class="footer-link" href="#proceso">Cómo trabajamos</a>
+        <a class="footer-link" href="#contacto">Contacto</a>
+      </nav>
+    </div>
+    <div class="border-t border-white/20">
+      <p class="mx-auto max-w-7xl px-4 py-4 text-xs text-white/70 sm:px-6 lg:px-8">
+        © {{ currentYear }} AdvancedCoreLabs. Todos los derechos reservados.
+      </p>
+    </div>
+  </footer>
+</div>

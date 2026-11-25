@@ -1,0 +1,15 @@
+<div [class]="classes" [attr.role]="role">
+  <span class="mt-0.5 size-2 shrink-0 rounded-full bg-current opacity-70" aria-hidden="true"></span>
+  <div class="min-w-0">
+    <p class="text-sm font-semibold">{{ title }}</p>
+    <p class="mt-0.5 text-sm opacity-85">{{ message }}</p>
+  </div>
+  @if (actionLabel && actionHref) {
+    <a
+      [href]="actionHref"
+      class="ml-auto shrink-0 text-sm font-semibold underline underline-offset-4"
+    >
+      {{ actionLabel }}
+    </a>
+  }
+</div>

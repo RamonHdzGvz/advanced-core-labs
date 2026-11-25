@@ -1,0 +1,24 @@
+<div class="flex items-center justify-between gap-4 border-t border-outline pt-4">
+  <div>
+    <p class="text-sm font-medium text-content">{{ label }}</p>
+    @if (description) {
+      <p class="mt-0.5 text-xs text-content-muted">{{ description }}</p>
+    }
+  </div>
+  <button
+    type="button"
+    role="switch"
+    [attr.aria-checked]="checked"
+    [attr.aria-label]="label"
+    class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-focus-ring/30"
+    [class.bg-primary]="checked"
+    [class.bg-outline]="!checked"
+    (click)="toggle()"
+  >
+    <span
+      class="pointer-events-none inline-block size-5 rounded-full bg-white shadow transition"
+      [class.translate-x-5]="checked"
+      [class.translate-x-0.5]="!checked"
+    ></span>
+  </button>
+</div>

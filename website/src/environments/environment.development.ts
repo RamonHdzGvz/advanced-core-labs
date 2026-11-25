@@ -1,0 +1,6 @@
+export const environment = {
+  turnstileSiteKey: '1x00000000000000000000AA',
+  supabaseUrl: 'https://ugcihdnxbqxlhtwlusaw.supabase.co',
+  supabasePublishableKey:
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVnY2loZG54YnF4bGh0d2x1c2F3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAzMDA4NzUsImV4cCI6MjEwNTg3Njg3NX0.aSNwyacfmQE5XRGSNx7L_3-7f8byWO20nxm5aGkrAFU',
+};

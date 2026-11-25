@@ -1,0 +1,10 @@
+<button
+  [type]="type"
+  [disabled]="disabled"
+  [attr.aria-label]="ariaLabel"
+  [attr.aria-pressed]="ariaPressed"
+  [class]="classes"
+  (click)="pressed.emit($event)"
+>
+  <ng-content />
+</button>

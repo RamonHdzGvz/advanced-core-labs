@@ -1,0 +1,50 @@
+<dialog
+  #dialog
+  tabindex="-1"
+  class="m-auto w-[min(28rem,calc(100vw-2rem))] rounded-theme-lg border border-outline bg-surface p-0 text-content shadow-2xl backdrop:bg-slate-950/50"
+  (cancel)="onCancel($event)"
+  (click)="onBackdropClick($event)"
+  (keydown)="$event.stopPropagation()"
+  [attr.aria-labelledby]="messageService.current()?.id + '-message-title'"
+  [attr.aria-describedby]="messageService.current()?.id + '-message-body'"
+>
+  @if (messageService.current(); as dialog) {
+    <section class="p-5 sm:p-6" [attr.data-tone]="dialog.tone">
+      <div class="flex items-start gap-3">
+        <span
+          class="mt-1 size-2.5 shrink-0 rounded-full"
+          [class.bg-sky-500]="dialog.tone === 'info'"
+          [class.bg-emerald-500]="dialog.tone === 'success'"
+          [class.bg-amber-500]="dialog.tone === 'warning'"
+          [class.bg-rose-500]="dialog.tone === 'danger'"
+          aria-hidden="true"
+        ></span>
+        <div class="min-w-0">
+          <h2 class="text-lg font-semibold" [id]="dialog.id + '-message-title'">
+            {{ dialog.title }}
+          </h2>
+          <p
+            class="mt-2 whitespace-pre-line text-sm leading-6 text-content-muted"
+            [id]="dialog.id + '-message-body'"
+          >
+            {{ dialog.message }}
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-6 flex justify-end gap-2">
+        @if (dialog.kind === 'confirm') {
+          <app-theme-button variant="secondary" (pressed)="messageService.close(false)">
+            {{ dialog.cancelLabel }}
+          </app-theme-button>
+        }
+        <app-theme-button
+          [variant]="dialog.tone === 'danger' && dialog.kind === 'confirm' ? 'danger' : 'primary'"
+          (pressed)="messageService.close(true)"
+        >
+          {{ dialog.confirmLabel }}
+        </app-theme-button>
+      </div>
+    </section>
+  }
+</dialog>

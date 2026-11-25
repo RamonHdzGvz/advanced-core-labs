@@ -1,0 +1,289 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="space-y-6" novalidate>
+  @if (schema.title || schema.description) {
+    <header>
+      @if (schema.title) {
+        <h2 class="text-lg font-semibold text-content">{{ schema.title }}</h2>
+      }
+      @if (schema.description) {
+        <p class="mt-1 text-sm text-content-muted">{{ schema.description }}</p>
+      }
+    </header>
+  }
+
+  @for (section of schema.sections; track $index) {
+    <fieldset
+      class="space-y-4"
+      [class.border-t]="section.title && !$first"
+      [class.border-outline]="section.title && !$first"
+      [class.pt-5]="section.title && !$first"
+    >
+      @if (section.title) {
+        <legend class="text-sm font-semibold text-content">{{ section.title }}</legend>
+      }
+      @if (section.description) {
+        <p class="-mt-2 text-sm text-content-muted">{{ section.description }}</p>
+      }
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        @for (field of section.fields; track field.key) {
+          <div class="min-w-0" [class.sm:col-span-2]="field.fullWidth">
+            @if (field.type === 'checkbox') {
+              <label
+                class="flex items-start gap-2.5 text-sm text-content"
+                [for]="fieldId(field.key)"
+              >
+                <input
+                  class="mt-0.5 size-4 shrink-0 rounded border-outline accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
+                  type="checkbox"
+                  [id]="fieldId(field.key)"
+                  [formControlName]="field.key"
+                  [attr.aria-invalid]="fieldError(field.key) ? 'true' : null"
+                  [attr.aria-describedby]="
+                    fieldError(field.key) ? fieldId(field.key) + '-error' : null
+                  "
+                />
+                <span>{{ field.label }}</span>
+              </label>
+            } @else if (field.type === 'radio') {
+              <fieldset
+                class="space-y-2"
+                [attr.aria-describedby]="
+                  fieldError(field.key)
+                    ? fieldId(field.key) + '-error'
+                    : field.helperText
+                      ? fieldId(field.key) + '-help'
+                      : null
+                "
+              >
+                <legend class="mb-2 text-sm font-medium text-content">
+                  {{ field.label }}
+                  @if (field.validation?.required !== false) {
+                    <span aria-hidden="true" class="text-rose-600">*</span>
+                  }
+                </legend>
+                @for (option of catalogState(field).options; track $index; let index = $index) {
+                  <label
+                    class="flex cursor-pointer items-center gap-2.5 text-sm text-content"
+                    [for]="fieldId(field.key) + '-option-' + index"
+                  >
+                    <input
+                      class="size-4 accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
+                      type="radio"
+                      [id]="fieldId(field.key) + '-option-' + index"
+                      [name]="field.key"
+                      [formControlName]="field.key"
+                      [value]="option.value"
+                      [disabled]="catalogState(field).loading || !!catalogState(field).error"
+                      [attr.aria-invalid]="fieldError(field.key) ? 'true' : null"
+                    />
+                    <span>{{ option.label || option.value }}</span>
+                  </label>
+                }
+                @if (catalogState(field).loading) {
+                  <p class="text-xs text-content-muted" role="status">Cargando opciones…</p>
+                } @else if (catalogState(field).error) {
+                  <div class="flex items-center justify-between gap-3">
+                    <p
+                      class="text-xs text-rose-700 dark:text-rose-300"
+                      [id]="fieldId(field.key) + '-catalog-error'"
+                      role="status"
+                    >
+                      {{ catalogState(field).error }}
+                    </p>
+                    <button
+                      class="shrink-0 text-xs font-semibold text-primary underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
+                      type="button"
+                      (click)="retryCatalog(field)"
+                    >
+                      Reintentar
+                    </button>
+                  </div>
+                }
+              </fieldset>
+            } @else if (field.type === 'checkbox-group') {
+              <fieldset
+                class="space-y-2"
+                [attr.aria-describedby]="
+                  fieldError(field.key)
+                    ? fieldId(field.key) + '-error'
+                    : field.helperText
+                      ? fieldId(field.key) + '-help'
+                      : null
+                "
+              >
+                <legend class="mb-2 text-sm font-medium text-content">
+                  {{ field.label }}
+                  @if (field.validation?.required !== false) {
+                    <span aria-hidden="true" class="text-rose-600">*</span>
+                  }
+                </legend>
+                <div
+                  class="max-h-60 space-y-2 overflow-y-auto rounded-theme-md border border-outline p-3"
+                >
+                  @for (option of catalogState(field).options; track $index) {
+                    <label
+                      class="flex cursor-pointer items-start gap-2.5 text-sm text-content"
+                      [for]="fieldId(field.key) + '-option-' + $index"
+                    >
+                      <input
+                        class="mt-0.5 size-4 shrink-0 rounded border-outline accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
+                        type="checkbox"
+                        [id]="fieldId(field.key) + '-option-' + $index"
+                        [checked]="checkboxOptionSelected(field.key, option.value)"
+                        [disabled]="catalogState(field).loading || !!catalogState(field).error"
+                        (change)="toggleCheckboxOption(field.key, option.value, $event)"
+                      />
+                      <span>{{ option.label || option.value }}</span>
+                    </label>
+                  }
+                </div>
+                @if (catalogState(field).loading) {
+                  <p class="text-xs text-content-muted" role="status">Cargando opciones…</p>
+                } @else if (catalogState(field).error) {
+                  <div class="flex items-center justify-between gap-3">
+                    <p
+                      class="text-xs text-rose-700 dark:text-rose-300"
+                      [id]="fieldId(field.key) + '-catalog-error'"
+                      role="status"
+                    >
+                      {{ catalogState(field).error }}
+                    </p>
+                    <button
+                      class="shrink-0 text-xs font-semibold text-primary underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
+                      type="button"
+                      (click)="retryCatalog(field)"
+                    >
+                      Reintentar
+                    </button>
+                  </div>
+                }
+              </fieldset>
+            } @else {
+              <label
+                class="mb-1.5 block text-sm font-medium text-content"
+                [for]="fieldId(field.key)"
+              >
+                {{ field.label }}
+                @if (field.validation?.required !== false) {
+                  <span aria-hidden="true" class="text-rose-600">*</span>
+                }
+              </label>
+
+              @if (field.type === 'textarea') {
+                <textarea
+                  class="block min-h-28 w-full resize-y rounded-theme-md border border-outline bg-surface px-3.5 py-2.5 text-sm text-content shadow-sm outline-none placeholder:text-content-muted focus:border-primary focus:ring-4 focus:ring-focus-ring/20"
+                  [id]="fieldId(field.key)"
+                  [formControlName]="field.key"
+                  [placeholder]="field.placeholder ?? ''"
+                  [attr.aria-invalid]="fieldError(field.key) ? 'true' : null"
+                  [attr.aria-describedby]="
+                    fieldError(field.key)
+                      ? fieldId(field.key) + '-error'
+                      : field.helperText
+                        ? fieldId(field.key) + '-help'
+                        : null
+                  "
+                ></textarea>
+              } @else if (field.type === 'select') {
+                <select
+                  class="block w-full rounded-theme-md border border-outline bg-surface px-3.5 py-2.5 text-sm text-content shadow-sm outline-none focus:border-primary focus:ring-4 focus:ring-focus-ring/20 disabled:cursor-wait disabled:bg-surface-raised disabled:text-content-muted"
+                  [id]="fieldId(field.key)"
+                  [formControlName]="field.key"
+                  [disabled]="catalogState(field).loading || !!catalogState(field).error"
+                  [attr.aria-invalid]="fieldError(field.key) ? 'true' : null"
+                  [attr.aria-busy]="catalogState(field).loading"
+                  [attr.aria-describedby]="
+                    fieldError(field.key)
+                      ? fieldId(field.key) + '-error'
+                      : catalogState(field).error
+                        ? fieldId(field.key) + '-catalog-error'
+                        : field.helperText
+                          ? fieldId(field.key) + '-help'
+                          : null
+                  "
+                >
+                  <option value="" disabled>
+                    @if (catalogState(field).loading) {
+                      Cargando opciones…
+                    } @else if (catalogState(field).error) {
+                      No se pudo cargar el catálogo
+                    } @else {
+                      Selecciona una opción
+                    }
+                  </option>
+                  @for (option of catalogState(field).options; track option.value) {
+                    <option [ngValue]="option.value">{{ option.label }}</option>
+                  }
+                </select>
+                @if (catalogState(field).error) {
+                  <div class="mt-1.5 flex items-center justify-between gap-3">
+                    <p
+                      class="text-xs text-rose-700 dark:text-rose-300"
+                      [id]="fieldId(field.key) + '-catalog-error'"
+                      role="status"
+                    >
+                      {{ catalogState(field).error }}
+                    </p>
+                    <button
+                      class="shrink-0 text-xs font-semibold text-primary underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
+                      type="button"
+                      (click)="retryCatalog(field)"
+                    >
+                      Reintentar
+                    </button>
+                  </div>
+                }
+              } @else {
+                <input
+                  class="block w-full rounded-theme-md border border-outline bg-surface px-3.5 py-2.5 text-sm text-content shadow-sm outline-none placeholder:text-content-muted focus:border-primary focus:ring-4 focus:ring-focus-ring/20"
+                  [id]="fieldId(field.key)"
+                  [type]="field.type"
+                  [formControlName]="field.key"
+                  [placeholder]="field.placeholder ?? ''"
+                  [attr.aria-invalid]="fieldError(field.key) ? 'true' : null"
+                  [attr.aria-describedby]="
+                    fieldError(field.key)
+                      ? fieldId(field.key) + '-error'
+                      : field.helperText
+                        ? fieldId(field.key) + '-help'
+                        : null
+                  "
+                />
+              }
+            }
+
+            @if (fieldError(field.key); as errorMessage) {
+              <p
+                class="mt-1.5 text-xs font-medium text-rose-700 dark:text-rose-300"
+                [id]="fieldId(field.key) + '-error'"
+              >
+                {{ errorMessage }}
+              </p>
+            } @else if (field.helperText && field.type !== 'checkbox') {
+              <p class="mt-1.5 text-xs text-content-muted" [id]="fieldId(field.key) + '-help'">
+                {{ field.helperText }}
+              </p>
+            }
+          </div>
+        }
+      </div>
+    </fieldset>
+  }
+
+  <div class="flex items-center justify-between gap-3 border-t border-outline pt-5">
+    @if (schema.resetLabel) {
+      <app-theme-button type="reset" variant="secondary" size="md">
+        {{ schema.resetLabel }}
+      </app-theme-button>
+    }
+    <app-theme-button
+      class="ml-auto"
+      type="submit"
+      variant="primary"
+      size="md"
+      [disabled]="catalogsLoading"
+    >
+      {{ schema.submitLabel ?? 'Enviar' }}
+    </app-theme-button>
+  </div>
+</form>
